@@ -127,6 +127,10 @@ async function enviarMensaje(to, text) {
         console.error('Error enviando mensaje:', error.response?.data || error.message);
     }
 }
+ 
+app.get('/', (req, res) => {
+  res.status(200).send('Servidor activo');
+});
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor de Pasanaku corriendo en http://localhost:${PORT}`);
