@@ -23,7 +23,7 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-// 3. Recepción de Mensajes de WhatsApp y Lógica del Menú
+// 3. Recepción de Mensajes de WhatsApp
 app.post('/webhook', async (req, res) => {
     const body = req.body;
 
@@ -35,7 +35,7 @@ app.post('/webhook', async (req, res) => {
             body.entry[0].changes[0].value.messages[0]
         ) {
             const message = body.entry[0].changes[0].value.messages[0];
-            const from = message.from; // Número de teléfono del remitente
+            const from = message.from;
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim().toLowerCase();
@@ -53,55 +53,75 @@ app.post('/webhook', async (req, res) => {
 function generarRespuesta(texto) {
     const menuPrincipal = 
         "🤝 *Bienvenido a Pasanaku Tech*\n" +
-        "_Orientación Financiera y Ayuda Mutua_\n\n" +
+        "_Plataforma de Ahorro Colectivo y Pasanaku Digital_\n\n" +
         "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
-        "1️⃣ ¿Qué es Pasanaku Tech?\n" +
-        "2️⃣ Asesoría Financiera Personalizada\n" +
-        "3️⃣ Organización de Pasanakus (Grupos de Ahorro)\n" +
-        "4️⃣ Hablar con un Asesor\n\n" +
+        "1️⃣ ¿Qué es Pasanaku Tech y Reglas del Juego?\n" +
+        "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
+        "3️⃣ Solicitar QR de Pago de Comisión (1%)\n" +
+        "4️⃣ Hablar con un Asesor / Soporte\n\n" +
         "💡 _Escribe *menu* en cualquier momento para volver a ver estas opciones._";
 
     if (['hola', 'buenas', 'inicio', 'menu', 'menú', '0'].includes(texto)) {
         return menuPrincipal;
+
     } else if (texto === '1') {
         return (
-            "ℹ️ *¿Qué es Pasanaku Tech?*\n\n" +
-            "Es una iniciativa de orientación y facilitación financiera diseñada para promover la " +
-            "colaboración mutua, el orden económico y la educación patrimonial.\n\n" +
-            "Combinamos la tradición del ahorro comunitario con herramientas digitales para " +
-            "brindar acompañamiento transparente y estructurado a personas e iniciativas.\n\n" +
-            "📌 _Nuestra labor es estrictamente de consultoría y educación, sin intermediación financiera._\n\n" +
-            "Escribe *menu* para regresar al inicio."
+            "📋 *REGLAS Y FUNCIONAMIENTO DEL PASANAKU*\n\n" +
+            "• *Ingreso en Pareja (Padrinazgo):* El registro es de 2 en 2. Cada participante debe ingresar con su ahijado/padrino, actuando mutuamente como garantes para asegurar el pago total de sus cuotas.\n\n" +
+            "• *Comisión de Plataforma:* Sin cobros fijos administrativos ni por cabeza. Únicamente se abona una comisión inicial del *1% del valor de la cuota* de la categoría elegida.\n\n" +
+            "• *Entrega del Pozo:* Al recibir el pozo en tu turno designado:\n" +
+            "  - *Turnos iniciales/medios:* Recibirás el *50% efectivo* del pozo. El 50% restante se retiene para cubrir de forma garantizada tus aportes futuros.\n" +
+            "  - *Turnos finales:* Se retendrá únicamente el porcentaje justo para cubrir los turnos restantes, entregándote el saldo completo disponible.\n\n" +
+            "Escribe *2* para ver las categorías disponibles e inscribirte."
         );
+
     } else if (texto === '2') {
         return (
-            "📊 *Asesoría Financiera Personalizada*\n\n" +
-            "Te ayudamos a estructurar tu economía personal o familiar mediante:\n\n" +
-            "• Diagnóstico y presupuesto práctico.\n" +
-            "• Planificación de ahorro estratégico a corto y largo plazo.\n" +
-            "• Organización patrimonial e inversiones seguras.\n\n" +
-            "Escribe *4* si deseas agendar una sesión privada con nuestro asesor."
+            "🎮 *CATEGORÍAS DE JUEGO Y MODO DE INGRESO*\n\n" +
+            "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
+            "A) *Categoría 100 BS* (Cuota: 100 Bs | Comisión 1%: 1 Bs)\n" +
+            "B) *Categoría 200 BS* (Cuota: 200 Bs | Comisión 1%: 2 Bs)\n" +
+            "C) *Categoría 300 BS* (Cuota: 300 Bs | Comisión 1%: 3 Bs)\n\n" +
+            "📌 *Requisito Obligatorio:* Para completar tu registro debes indicar el Nombre y WhatsApp de tu Padrino/Garante registrado.\n\n" +
+            "Escribe *menu* para volver al inicio."
         );
+
+    } else if (texto === 'a' || texto === 'b' || texto === 'c') {
+        let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
+        let comision = texto === 'a' ? '1 BS' : texto === 'b' ? '2 BS' : '3 BS';
+
+        return (
+            `📝 *REGISTRO EN CATEGORÍA ${cat}*\n\n` +
+            `Has seleccionado la *Categoría de ${cat}*.\n` +
+            `• Comisión inicial de mantenimiento (1%): *${comision}*\n\n` +
+            "Para completar tu inscripción, envía en un solo mensaje los siguientes datos:\n\n" +
+            "1. Tu Nombre Completo\n" +
+            "2. Tu CI / Documento\n" +
+            "3. Nombre Completo de tu Padrino/Garante\n" +
+            "4. Número de WhatsApp de tu Padrino/Garante\n\n" +
+            "Un administrador validará la información de la pareja y te enviará el QR de pago."
+        );
+
     } else if (texto === '3') {
         return (
-            "👥 *Organización de Pasanakus (Ayuda Mutua)*\n\n" +
-            "Te facilitamos herramientas de seguimiento para esquemas colaborativos de ahorro:\n\n" +
-            "• Plantillas y herramientas digitales de control de turnos y pagos.\n" +
-            "• Modelos de transparencia y reglas claras para los participantes.\n" +
-            "• Asesoramiento en la estructuración de grupos de confianza.\n\n" +
-            "Escribe *menu* para volver al menú principal."
+            "💳 *SOLICITUD DE QR DE PAGO / COMISIÓN*\n\n" +
+            "Por favor, indica tu nombre completo y la categoría en la que te inscribiste.\n\n" +
+            "El equipo administrativo te enviará por este medio el QR / Cuenta Bancaria para abonar la comisión del 1% y habilitar tu posición en la tabla del Pasanaku.\n\n" +
+            "Escribe *4* si requieres atención directa."
         );
+
     } else if (texto === '4') {
         return (
-            "👨‍💼 *Atención Personalizada*\n\n" +
-            "Un asesor profesional atenderá tus consultas puntuales o te asistirá para agendar una cita.\n\n" +
-            "Por favor, déjanos tu *Nombre completo* y una breve descripción de lo que necesitas. " +
-            "Te responderemos a la brevedad posible."
+            "👨‍💼 *ATENCIÓN AL CLIENTE / ADMINISTRACIÓN*\n\n" +
+            "Un responsable administrativo te atenderá de manera directa.\n\n" +
+            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (inscripción de parejas, envío de comprobante QR o dudas). Te responderemos a la brevedad."
         );
+
     } else {
         return (
-            "No entendí tu respuesta. 🤔\n\n" +
-            "Por favor escribe un número del *1 al 4* o la palabra *menu* para ver las opciones disponibles."
+            "Opción no válida. 🤔\n\n" +
+            "Por favor escribe un número del *1 al 4*, o la letra de la categoría (*A, B o C*).\n" +
+            "Escribe *menu* para ver el menú principal."
         );
     }
 }
