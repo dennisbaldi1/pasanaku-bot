@@ -4,6 +4,9 @@ const app = express();
 
 app.use(express.json());
 
+// Memoria temporal en servidor para rastrear la conversación de cada usuario
+const estadoUsuarios = {};
+
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
     res.status(200).send('Servidor de Pasanaku-Tech Bot activo');
@@ -39,9 +42,9 @@ app.post('/webhook', async (req, res) => {
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
-                const respuesta = generarRespuesta(userText);
+                const respuesta = generarRespuesta(from, userText);
                 
-                // Si la función devuelve null, el servidor NO envía nada a WhatsApp (Silencio del Bot)
+                // Si la función devuelve null, el bot PERMANECE EN SILENCIO ABSOLUTO
                 if (respuesta !== null) {
                     await responderWhatsApp(from, respuesta);
                 }
@@ -53,43 +56,33 @@ app.post('/webhook', async (req, res) => {
     }
 });
 
-// 4. Flujo de respuestas interactivas de Pasanaku-Tech
-function generarRespuesta(textoOriginal) {
+// 4. Lógica de Respuestas con Manejo de Estado
+function generarRespuesta(userId, textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
-    // 1. Comandos oficiales del sistema
-    const comandosValidos = ['hola', 'buenas', 'inicio', 'menú', 'menu', '0', '1', '2', '3', 'a', 'b', 'c'];
+    // Si el usuario escribe Inicio/Hola, reiniciamos su estado para permitirle usar el menú de nuevo
+    if (['hola', 'buenas', 'inicio', '0', 'menu', 'menú'].includes(texto)) {
+        estadoUsuarios[userId] = 'MENU_PRINCIPAL';
+        return (
+            "🤝 *Bienvenido a Pasanaku-Tech*\n" +
+            "_Plataforma de Ahorro Colectivo - Pasanaku-Tech_\n\n" +
+            "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
+            "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
+            "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
+            "3️⃣ Hablar con un Asesor / Soporte\n\n" +
+            "💡 _Escribe *Inicio* en cualquier momento para volver a ver estas opciones._"
+        );
+    }
 
-    // 2. Filtro amplio de cortesías, modismos y mensajes de seguimiento que DEBEN IGNORARSE
-    const palabrasIgnoradas = [
-        'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
-        'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
-        'super', 'súper', 'chala', 'de lux', 'joya', 'belleza', 'ya', 'ya de una',
-        'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está',
-        'ya perfecto', 'ya perfecto muchas gracias', 'perfecto muchas gracias',
-        'ya gracias', 'esta bien', 'está bien', 'esperare', 'esperaré', 'hola buenas'
-    ];
-
-    if (palabrasIgnoradas.includes(texto)) {
+    // SI EL USUARIO YA ESTÁ EN ATENCIÓN HUMANA O YA SE REGISTRÓ, SILENCIO TOTAL
+    if (estadoUsuarios[userId] === 'EN_ATENCION_HUMANA' || estadoUsuarios[userId] === 'REGISTRO_COMPLETADO') {
         return null;
     }
 
-    const menuPrincipal = 
-        "🤝 *Bienvenido a Pasanaku-Tech*\n" +
-        "_Plataforma de Ahorro Colectivo y Pasanaku Digital_\n\n" +
-        "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
-        "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
-        "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
-        "3️⃣ Hablar con un Asesor / Soporte\n\n" +
-        "💡 _Escribe *Inicio* en cualquier momento para volver a ver estas opciones._";
-
-    if (['hola', 'buenas', 'inicio', '0'].includes(texto)) {
-        return menuPrincipal;
-
-    } else if (texto === '1') {
+    if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
-            "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
+            "🚀 *INNOVACIÓN Y PROPÓSITO*\n" +
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un *flujo de capital constante, seguro y fluido*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL*\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
@@ -123,6 +116,7 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
+        estadoUsuarios[userId] = 'ESPERANDO_NOMBRE';
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
         let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
 
@@ -137,26 +131,26 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else if (texto === '3') {
-        // Respuesta única para soporte
+        // Bloqueamos respuestas automáticas futuras marcando el estado de este usuario
+        estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
             "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
             "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre Completo* y el detalle de tu consulta en este chat. Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
+    } else if (estadoUsuarios[userId] === 'ESPERANDO_NOMBRE') {
+        // Captura el nombre SOLO si venía de elegir A, B o C
+        estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
+        return (
+            "✅ *¡Registro Recibido!*\n\n" +
+            `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
+            "El equipo administrativo procesará tu inscripción para asignarte en orden de llegada al equipo de 10 miembros correspondientes. En breve te enviaremos por este chat el QR de Bs. 3 por uso de plataforma para oficializar tu lugar.\n\n" +
+            "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
+        );
+
     } else {
-        // Caso: El usuario escribió un nombre para el registro.
-        // Si el texto tiene una longitud típica de nombre (más de 3 caracteres) se envía la confirmación de registro.
-        if (textoOriginal.length >= 3 && !comandosValidos.includes(texto)) {
-            return (
-                "✅ *¡Registro Recibido!*\n\n" +
-                `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
-                "El equipo administrativo procesará tu inscripción para asignarte en orden de llegada al equipo de 10 miembros correspondientes. En breve te enviaremos por este chat el QR de Bs. 3 por uso de plataforma para oficializar tu lugar.\n\n" +
-                "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
-            );
-        }
-        
-        // Para cualquier otra frase, pregunta o comentario adicional fuera de los comandos, el bot PERMANECE EN SILENCIO TOTAL
+        // Cualquier otro texto fuera del flujo no hace NADA
         return null;
     }
 }
