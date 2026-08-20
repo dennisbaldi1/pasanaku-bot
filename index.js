@@ -67,7 +67,7 @@ function generarRespuesta(texto) {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
-            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado con la finalidad de garantizar un *flujo de capital constante, seguro, altamente fluido y libre de intermediarios tradicionales*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
+            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado con la finalidad de garantizar un *flujo de capital constante, seguro, highly fluido y libre de intermediarios tradicionales*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
             "📅 *CICLOS Y CRONOGRAMA SEMANAL*\n" +
             "• *Día de Operación:* El juego opera en ciclos semanales **empezando y cerrando cada día Domingo**.\n" +
             "• Los domingos se realizan las aperturas de nuevas jugadas y se efectúa el desembolso directo del pozo acumulado al participante correspondiente de la semana.\n\n" +
@@ -96,17 +96,13 @@ function generarRespuesta(texto) {
             "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
             "A) *Categoría 100 BS*\n" +
             "   • Cuota inicial: 100 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 1 Bs\n" +
-            "   • Total en el QR que recibirás: *151 Bs*\n" +
-            "   • *Pozo acumulado semanal por equipo (10 miembros):* 1,000 Bs\n\n" +
+            "   • Total en el QR que recibirás: *151 Bs*\n\n" +
             "B) *Categoría 200 BS*\n" +
             "   • Cuota inicial: 200 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 2 Bs\n" +
-            "   • Total en el QR que recibirás: *252 Bs*\n" +
-            "   • *Pozo acumulado semanal por equipo (10 miembros):* 2,000 Bs\n\n" +
+            "   • Total en el QR que recibirás: *252 Bs*\n\n" +
             "C) *Categoría 300 BS*\n" +
             "   • Cuota inicial: 300 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 3 Bs\n" +
-            "   • Total en el QR que recibirás: *353 Bs*\n" +
-            "   • *Pozo acumulado semanal por equipo (10 miembros):* 3,000 Bs\n\n" +
-            "📌 *Requisito:* Debes indicar el Nombre y WhatsApp de tu Padrino/Garante registrado.\n\n" +
+            "   • Total en el QR que recibirás: *353 Bs*\n\n" +
             "Escribe *Inicio* para volver al menú principal."
         );
 
@@ -124,11 +120,8 @@ function generarRespuesta(texto) {
             `• Desglose consolidado del QR: ${detalle}\n` +
             `_(Los 50 Bs del Fondo de Emergencia se devuelven al finalizar el ciclo)._\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje los siguientes datos:\n\n" +
-            "1. Tu Nombre Completo\n" +
-            "2. Tu CI / Documento\n" +
-            "3. Nombre Completo de tu Padrino/Garante\n" +
-            "4. Número de WhatsApp de tu Padrino/Garante\n\n" +
-            "📲 *Próximo paso:* Una vez recibidos tus datos, el equipo administrativo procesará tu registro, te asignará a un equipo de 10 miembros y te enviará el QR directo a este chat."
+            "1. Tu Nombre Completo\n\n" +
+            "📲 *Próximo paso:* Una vez recibido tu nombre, el equipo administrativo procesará tu registro, te asignará a un equipo de 10 miembros y te enviará el QR directo a este chat."
         );
 
     } else if (texto === '3') {
