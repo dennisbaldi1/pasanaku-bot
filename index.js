@@ -66,11 +66,16 @@ function generarRespuesta(texto) {
     } else if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DEL PASANAKU*\n\n" +
-            "• *Entrega del Pozo Completo:* Se elimina cualquier tipo de retención porcentual sobre el pozo ganado. El participante recibe el *100% del monto acumulado* en su turno correspondiente.\n\n" +
-            "• *Fondo de Emergencia (50 Bs):* Cada participante aporta un depósito de garantía de *50 Bs*, destinado a cubrir imprevistos en caso de retraso en los pagos de algún miembro. _Este monto se devuelve íntegramente al finalizar el ciclo del juego._\n\n" +
-            "• *Ingreso en Pareja (Padrinazgo):* El registro se realiza de 2 en 2. Cada participante ingresa con su ahijado/padrino, actuando como garantes mutuos para asegurar el cumplimiento del juego.\n\n" +
-            "• *Sorteo de Turnos:* Al completarse el grupo, se asignará un número a cada participante. El orden de los turnos se determinará mediante un sorteo transparente con app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7* / *Equipo #5 Cat. B - Juan de los Palotes N° 9*).\n\n" +
-            "• *Comisión de Plataforma:* 1% único sobre el valor de la cuota inicial de la categoría elegida.\n\n" +
+            "📌 *MECÁNICA DEL JUEGO*\n" +
+            "• *Pozo Íntegro (100%):* No existe ninguna retención porcentual sobre tus ganancias. Al llegar tu turno, recibes el pozo completo acumulado.\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* El registro se realiza de 2 en 2 (padrino/ahijado). Ambos actúan como respaldo mutuo para garantizar el cumplimiento de las cuotas.\n" +
+            "• *Sorteo Transparente:* Al completarse la sala, se asigna un número a cada participante y se sortea el orden de turnos mediante una app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7*).\n\n" +
+            "💳 *PAGO E INGRESO SIMPLIFICADO*\n" +
+            "• *Cobro Único Centralizado:* No necesitas hacer solicitudes manuales de QR ni pagos por separado. Tras enviar tus datos de registro, la administración te enviará directamente a este chat el QR oficial de pago.\n" +
+            "• *Desglose del QR enviado:* El monto del QR incluirá únicamente:\n" +
+            "  1. La cuota inicial de la categoría elegida.\n" +
+            "  2. El Fondo de Emergencia obligatorio de 50 Bs (*monto 100% reembolsable al finalizar el ciclo* para cubrir eventuales retrasos de miembros).\n" +
+            "  3. La comisión única de mantenimiento de la plataforma (1%).\n\n" +
             "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
@@ -80,13 +85,13 @@ function generarRespuesta(texto) {
             "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
             "A) *Categoría 100 BS*\n" +
             "   • Cuota inicial: 100 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 1 Bs\n" +
-            "   • Total a depositar al inicio: *151 Bs*\n\n" +
+            "   • Total en el QR que recibirás: *151 Bs*\n\n" +
             "B) *Categoría 200 BS*\n" +
             "   • Cuota inicial: 200 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 2 Bs\n" +
-            "   • Total a depositar al inicio: *252 Bs*\n\n" +
+            "   • Total en el QR que recibirás: *252 Bs*\n\n" +
             "C) *Categoría 300 BS*\n" +
             "   • Cuota inicial: 300 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 3 Bs\n" +
-            "   • Total a depositar al inicio: *353 Bs*\n\n" +
+            "   • Total en el QR que recibirás: *353 Bs*\n\n" +
             "📌 *Requisito:* Debes indicar el Nombre y WhatsApp de tu Padrino/Garante registrado.\n\n" +
             "Escribe *Inicio* para volver al menú principal."
         );
@@ -102,21 +107,21 @@ function generarRespuesta(texto) {
         return (
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
             `Has seleccionado la *Categoría de ${cat}*.\n` +
-            `• Desglose del pago inicial: ${detalle}\n` +
-            `_(Recuerda que los 50 Bs del Fondo de Emergencia se te devuelven al finalizar el ciclo)._\n\n` +
+            `• Desglose consolidado del QR: ${detalle}\n` +
+            `_(Los 50 Bs del Fondo de Emergencia se te devuelven al finalizar el ciclo)._\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje los siguientes datos:\n\n" +
             "1. Tu Nombre Completo\n" +
             "2. Tu CI / Documento\n" +
             "3. Nombre Completo de tu Padrino/Garante\n" +
             "4. Número de WhatsApp de tu Padrino/Garante\n\n" +
-            "📩 *Envío de QR:* Una vez recibidos tus datos, el equipo administrativo te enviará por este medio el código QR oficial con el monto exacto correspondiente a tu categoría para habilitar tu lugar."
+            "📲 *Próximo paso:* Una vez recibidos tus datos, el equipo administrativo procesará tu registro y te enviará el QR directo a este chat para habilitar tu posición."
         );
 
     } else if (texto === '3') {
         return (
             "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE*\n\n" +
             "Un responsable administrativo te atenderá de manera directa.\n\n" +
-            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre el juego, comprobantes de pago o sorteos). Te responderemos a la brevedad posible."
+            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre las reglas, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
         );
 
     } else {
