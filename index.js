@@ -41,7 +41,7 @@ app.post('/webhook', async (req, res) => {
                 const userText = message.text.body.trim();
                 const respuesta = generarRespuesta(userText);
                 
-                // Si la función devuelve una respuesta (no es null), enviamos el mensaje
+                // Si la función devuelve una respuesta válida, se realiza el envío
                 if (respuesta) {
                     await responderWhatsApp(from, respuesta);
                 }
@@ -57,13 +57,15 @@ app.post('/webhook', async (req, res) => {
 function generarRespuesta(textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
-    // Palabras de cortesía o confirmación que el bot DEBE IGNORAR
+    // Filtro extendido de palabras de cortesía, afirmaciones y modismos locales a ignorar
     const palabrasIgnoradas = [
         'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
-        'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up'
+        'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
+        'super', 'súper', 'chala', 'de lux', 'joya', 'belleza', 'ya', 'ya de una',
+        'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está'
     ];
 
-    // Si el usuario escribe una palabra de cortesía, NO responde nada
+    // Si el texto coincide exactamente con alguna palabra del filtro, el bot permanece en silencio
     if (palabrasIgnoradas.includes(texto)) {
         return null;
     }
@@ -149,7 +151,7 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else {
-        // Captura el nombre enviado para el registro inicial
+        // Captura el nombre completo enviado por el usuario
         return (
             "✅ *¡Registro Recibido!*\n\n" +
             `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
