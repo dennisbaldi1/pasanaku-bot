@@ -6,7 +6,7 @@ app.use(express.json());
 
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
-    res.status(200).send('Servidor de Pasanaku Bot activo');
+    res.status(200).send('Servidor de Pasanaku-Tech Bot activo');
 });
 
 // 2. Validación de Webhook para Meta
@@ -49,13 +49,13 @@ app.post('/webhook', async (req, res) => {
     }
 });
 
-// 4. Flujo de respuestas interactivas de Pasanaku Tech
+// 4. Flujo de respuestas interactivas de Pasanaku-Tech
 function generarRespuesta(texto) {
     const menuPrincipal = 
-        "🤝 *Bienvenido a Pasanaku Tech*\n" +
+        "🤝 *Bienvenido a Pasanaku-Tech*\n" +
         "_Plataforma de Ahorro Colectivo y Pasanaku Digital_\n\n" +
         "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
-        "1️⃣ ¿Qué es Pasanaku Tech y Reglas del Juego?\n" +
+        "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
         "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
         "3️⃣ Hablar con un Asesor / Soporte\n\n" +
         "💡 _Escribe *Inicio* en cualquier momento para volver a ver estas opciones._";
@@ -65,23 +65,25 @@ function generarRespuesta(texto) {
 
     } else if (texto === '1') {
         return (
-            "📋 *REGLAS Y FUNCIONAMIENTO DEL PASANAKU*\n\n" +
+            "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "📌 *MECÁNICA DEL JUEGO*\n" +
-            "• *Pozo Íntegro (100%):* No existe ninguna retención porcentual sobre tus ganancias. Al llegar tu turno, recibes el pozo completo acumulado.\n" +
-            "• *Ingreso en Pareja (Garante Mutuo):* El registro se realiza de 2 en 2 (padrino/ahijado). Ambos actúan como respaldo mutuo para garantizar el cumplimiento de las cuotas.\n" +
+            "• *Pozo Íntegro (100%):* Recibes el pozo completo acumulado en tu turno sin ninguna retención o descuento sobre tus ganancias.\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* El registro es de 2 en 2 (padrino/ahijado), actuando ambos como respaldo para garantizar el pago puntual de las cuotas.\n" +
             "• *Sorteo Transparente:* Al completarse la sala, se asigna un número a cada participante y se sortea el orden de turnos mediante una app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7*).\n\n" +
+            "🛡️ *DETALLE DEL FONDO DE EMERGENCIA (50 BS)*\n" +
+            "• *Propósito:* Es un pozo de reserva colectivo destinado a respaldar el juego si algún participante sufre un imprevisto y se retrasa en su cuota, garantizando que el ganador del turno reciba su dinero a tiempo sin demoras.\n" +
+            "• *Devolución Total:* Este monto *NO es un pago ni una comisión*. Es un depósito en garantía que se te reembolsa al 100% al finalizar exitosamente el ciclo del juego.\n\n" +
+            "💡 *EXPLICACIÓN DE LA COMISIÓN ÚNICA DEL 1%*\n" +
+            "• Corresponde al mantenimiento y administración de la plataforma Pasanaku-Tech. Se calcula únicamente sobre la cuota inicial de la categoría elegida.\n" +
+            "• *Ejemplo Práctico:* En la Categoría de 200 Bs, el 1% es *2 Bs*. Por lo tanto, pagas 200 Bs (cuota) + 50 Bs (fondo garantizado) + 2 Bs (comisión) = *252 Bs* totales en tu primer depósito. En los siguientes turnos solo pagas tu cuota regular de 200 Bs.\n\n" +
             "💳 *PAGO E INGRESO SIMPLIFICADO*\n" +
-            "• *Cobro Único Centralizado:* No necesitas hacer solicitudes manuales de QR ni pagos por separado. Tras enviar tus datos de registro, la administración te enviará directamente a este chat el QR oficial de pago.\n" +
-            "• *Desglose del QR enviado:* El monto del QR incluirá únicamente:\n" +
-            "  1. La cuota inicial de la categoría elegida.\n" +
-            "  2. El Fondo de Emergencia obligatorio de 50 Bs (*monto 100% reembolsable al finalizar el ciclo* para cubrir eventuales retrasos de miembros).\n" +
-            "  3. La comisión única de mantenimiento de la plataforma (1%).\n\n" +
+            "• No necesitas solicitar ningún QR manualmente. Tras enviar tus datos de registro, la administración te enviará directamente a este chat el QR oficial consolidado con el monto exacto correspondiente.\n\n" +
             "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
     } else if (texto === '2') {
         return (
-            "🎮 *CATEGORÍAS DE JUEGO Y MODO DE INGRESO*\n\n" +
+            "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
             "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
             "A) *Categoría 100 BS*\n" +
             "   • Cuota inicial: 100 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 1 Bs\n" +
@@ -106,9 +108,9 @@ function generarRespuesta(texto) {
 
         return (
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
-            `Has seleccionado la *Categoría de ${cat}*.\n` +
+            `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
             `• Desglose consolidado del QR: ${detalle}\n` +
-            `_(Los 50 Bs del Fondo de Emergencia se te devuelven al finalizar el ciclo)._\n\n` +
+            `_(Recuerda que los 50 Bs del Fondo de Emergencia son reembolsables al finalizar el ciclo)._\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje los siguientes datos:\n\n" +
             "1. Tu Nombre Completo\n" +
             "2. Tu CI / Documento\n" +
@@ -119,7 +121,7 @@ function generarRespuesta(texto) {
 
     } else if (texto === '3') {
         return (
-            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE*\n\n" +
+            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
             "Un responsable administrativo te atenderá de manera directa.\n\n" +
             "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre las reglas, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
         );
@@ -128,7 +130,7 @@ function generarRespuesta(texto) {
         return (
             "Opción no válida. 🤔\n\n" +
             "Por favor escribe un número del *1 al 3*, o la letra de la categoría (*A, B o C*).\n" +
-            "Escribe *Inicio* para ver el menú principal."
+            "Escribe *Inicio* para ver el menú principal de Pasanaku-Tech."
         );
     }
 }
