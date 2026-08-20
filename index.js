@@ -41,7 +41,8 @@ app.post('/webhook', async (req, res) => {
                 const userText = message.text.body.trim();
                 const respuesta = generarRespuesta(userText);
                 
-                if (respuesta) {
+                // Si la función devuelve null, el servidor NO envía nada a WhatsApp (Silencio del Bot)
+                if (respuesta !== null) {
                     await responderWhatsApp(from, respuesta);
                 }
             }
@@ -56,14 +57,17 @@ app.post('/webhook', async (req, res) => {
 function generarRespuesta(textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
-    // Filtro de cortesías, afirmaciones y modismos locales a ignorar
+    // 1. Comandos oficiales del sistema
+    const comandosValidos = ['hola', 'buenas', 'inicio', 'menú', 'menu', '0', '1', '2', '3', 'a', 'b', 'c'];
+
+    // 2. Filtro amplio de cortesías, modismos y mensajes de seguimiento que DEBEN IGNORARSE
     const palabrasIgnoradas = [
         'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
         'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
         'super', 'súper', 'chala', 'de lux', 'joya', 'belleza', 'ya', 'ya de una',
         'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está',
         'ya perfecto', 'ya perfecto muchas gracias', 'perfecto muchas gracias',
-        'ya gracias', 'esta bien', 'está bien', 'esperare', 'esperaré'
+        'ya gracias', 'esta bien', 'está bien', 'esperare', 'esperaré', 'hola buenas'
     ];
 
     if (palabrasIgnoradas.includes(texto)) {
@@ -133,6 +137,7 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else if (texto === '3') {
+        // Respuesta única para soporte
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
             "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
@@ -140,12 +145,19 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else {
-        return (
-            "✅ *¡Registro Recibido!*\n\n" +
-            `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
-            "El equipo administrativo procesará tu inscripción para asignarte en orden de llegada al equipo de 10 miembros correspondientes. En breve te enviaremos por este chat el QR de Bs. 3 por uso de plataforma para oficializar tu lugar.\n\n" +
-            "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
-        );
+        // Caso: El usuario escribió un nombre para el registro.
+        // Si el texto tiene una longitud típica de nombre (más de 3 caracteres) se envía la confirmación de registro.
+        if (textoOriginal.length >= 3 && !comandosValidos.includes(texto)) {
+            return (
+                "✅ *¡Registro Recibido!*\n\n" +
+                `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
+                "El equipo administrativo procesará tu inscripción para asignarte en orden de llegada al equipo de 10 miembros correspondientes. En breve te enviaremos por este chat el QR de Bs. 3 por uso de plataforma para oficializar tu lugar.\n\n" +
+                "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
+            );
+        }
+        
+        // Para cualquier otra frase, pregunta o comentario adicional fuera de los comandos, el bot PERMANECE EN SILENCIO TOTAL
+        return null;
     }
 }
 
