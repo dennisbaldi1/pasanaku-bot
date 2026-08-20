@@ -40,7 +40,11 @@ app.post('/webhook', async (req, res) => {
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
                 const respuesta = generarRespuesta(userText);
-                await responderWhatsApp(from, respuesta);
+                
+                // Si la función devuelve una respuesta (no es null), enviamos el mensaje
+                if (respuesta) {
+                    await responderWhatsApp(from, respuesta);
+                }
             }
         }
         res.status(200).send('EVENT_RECEIVED');
@@ -52,7 +56,18 @@ app.post('/webhook', async (req, res) => {
 // 4. Flujo de respuestas interactivas de Pasanaku-Tech
 function generarRespuesta(textoOriginal) {
     const texto = textoOriginal.toLowerCase();
-    
+
+    // Palabras de cortesía o confirmación que el bot DEBE IGNORAR
+    const palabrasIgnoradas = [
+        'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
+        'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up'
+    ];
+
+    // Si el usuario escribe una palabra de cortesía, NO responde nada
+    if (palabrasIgnoradas.includes(texto)) {
+        return null;
+    }
+
     const menuPrincipal = 
         "🤝 *Bienvenido a Pasanaku-Tech*\n" +
         "_Plataforma de Ahorro Colectivo y Pasanaku Digital_\n\n" +
@@ -134,7 +149,7 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else {
-        // Captura cualquier texto o nombre enviado
+        // Captura el nombre enviado para el registro inicial
         return (
             "✅ *¡Registro Recibido!*\n\n" +
             `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
