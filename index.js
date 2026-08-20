@@ -66,18 +66,27 @@ function generarRespuesta(texto) {
     } else if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
+            "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
+            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado con la finalidad de garantizar un *flujo de capital constante, seguro, altamente fluido y libre de intermediarios tradicionales*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
+            "📅 *CICLOS Y CRONOGRAMA SEMANAL*\n" +
+            "• *Día de Operación:* El juego opera en ciclos semanales **empezando y cerrando cada día Domingo**.\n" +
+            "• Los domingos se realizan las aperturas de nuevas jugadas y se efectúa el desembolso directo del pozo acumulado al participante correspondiente de la semana.\n\n" +
+            "👥 *ESTRUCTURA DE EQUIPOS (10 MIEMBROS)*\n" +
+            "• Cada grupo o sala de juego se conforma estrictamente por un **total de 10 miembros participantes**.\n" +
+            "• Al completarse los 10 cupos, el sistema habilita automáticamente un nuevo equipo dentro de esa misma categoría.\n" +
+            "  - *Ejemplo:* Si en la Categoría 100 Bs se inscriben 12 personas, los primeros 10 conforman el **Equipo #1** y los 2 restantes pasan a liderar el **Equipo #2**.\n\n" +
             "📌 *MECÁNICA DEL JUEGO*\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo completo acumulado en tu turno sin ninguna retención o descuento sobre tus ganancias.\n" +
             "• *Ingreso en Pareja (Garante Mutuo):* El registro es de 2 en 2 (padrino/ahijado), actuando ambos como respaldo para garantizar el pago puntual de las cuotas.\n" +
-            "• *Sorteo Transparente:* Al completarse la sala, se asigna un número a cada participante y se sortea el orden de turnos mediante una app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7*).\n\n" +
+            "• *Sorteo Transparente:* Al completarse la sala de 10 miembros, se asigna un número a cada participante y se sortea el orden de turnos mediante una app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7*).\n\n" +
             "🛡️ *DETALLE DEL FONDO DE EMERGENCIA (50 BS)*\n" +
-            "• *Propósito:* Es un pozo de reserva colectivo destinado a respaldar el juego si algún participante sufre un imprevisto y se retrasa en su cuota, garantizando que el ganador del turno reciba su dinero a tiempo sin demoras.\n" +
-            "• *Devolución Total:* Este monto *NO es un pago ni una comisión*. Es un depósito en garantía que se te reembolsa al 100% al finalizar exitosamente el ciclo del juego.\n\n" +
+            "• *Propósito:* Es un pozo de reserva colectivo destinado a respaldar el juego si algún participante sufre un imprevisto y se retrasa en su cuota, garantizando que el ganador del turno reciba su dinero el domingo a tiempo.\n" +
+            "• *Devolución Total:* Es un depósito en garantía que se te reembolsa al 100% al finalizar exitosamente el ciclo del juego.\n\n" +
             "💡 *EXPLICACIÓN DE LA COMISIÓN ÚNICA DEL 1%*\n" +
             "• Corresponde al mantenimiento y administración de la plataforma Pasanaku-Tech. Se calcula únicamente sobre la cuota inicial de la categoría elegida.\n" +
-            "• *Ejemplo Práctico:* En la Categoría de 200 Bs, el 1% es *2 Bs*. Por lo tanto, pagas 200 Bs (cuota) + 50 Bs (fondo garantizado) + 2 Bs (comisión) = *252 Bs* totales en tu primer depósito. En los siguientes turnos solo pagas tu cuota regular de 200 Bs.\n\n" +
+            "• *Ejemplo Práctico:* En la Categoría de 200 Bs, el 1% es *2 Bs*. Pagas 200 Bs (cuota) + 50 Bs (fondo) + 2 Bs (comisión) = *252 Bs* en tu primer depósito. En los siguientes turnos solo pagas tu cuota de 200 Bs.\n\n" +
             "💳 *PAGO E INGRESO SIMPLIFICADO*\n" +
-            "• No necesitas solicitar ningún QR manualmente. Tras enviar tus datos de registro, la administración te enviará directamente a este chat el QR oficial consolidado con el monto exacto correspondiente.\n\n" +
+            "• Tras enviar tus datos de registro, la administración te enviará directamente a este chat el QR oficial consolidado con el monto exacto correspondiente.\n\n" +
             "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
@@ -87,13 +96,16 @@ function generarRespuesta(texto) {
             "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
             "A) *Categoría 100 BS*\n" +
             "   • Cuota inicial: 100 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 1 Bs\n" +
-            "   • Total en el QR que recibirás: *151 Bs*\n\n" +
+            "   • Total en el QR que recibirás: *151 Bs*\n" +
+            "   • *Pozo acumulado semanal por equipo (10 miembros):* 1,000 Bs\n\n" +
             "B) *Categoría 200 BS*\n" +
             "   • Cuota inicial: 200 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 2 Bs\n" +
-            "   • Total en el QR que recibirás: *252 Bs*\n\n" +
+            "   • Total en el QR que recibirás: *252 Bs*\n" +
+            "   • *Pozo acumulado semanal por equipo (10 miembros):* 2,000 Bs\n\n" +
             "C) *Categoría 300 BS*\n" +
             "   • Cuota inicial: 300 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 3 Bs\n" +
-            "   • Total en el QR que recibirás: *353 Bs*\n\n" +
+            "   • Total en el QR que recibirás: *353 Bs*\n" +
+            "   • *Pozo acumulado semanal por equipo (10 miembros):* 3,000 Bs\n\n" +
             "📌 *Requisito:* Debes indicar el Nombre y WhatsApp de tu Padrino/Garante registrado.\n\n" +
             "Escribe *Inicio* para volver al menú principal."
         );
@@ -110,20 +122,20 @@ function generarRespuesta(texto) {
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
             `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
             `• Desglose consolidado del QR: ${detalle}\n` +
-            `_(Recuerda que los 50 Bs del Fondo de Emergencia son reembolsables al finalizar el ciclo)._\n\n` +
+            `_(Los 50 Bs del Fondo de Emergencia se devuelven al finalizar el ciclo)._\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje los siguientes datos:\n\n" +
             "1. Tu Nombre Completo\n" +
             "2. Tu CI / Documento\n" +
             "3. Nombre Completo de tu Padrino/Garante\n" +
             "4. Número de WhatsApp de tu Padrino/Garante\n\n" +
-            "📲 *Próximo paso:* Una vez recibidos tus datos, el equipo administrativo procesará tu registro y te enviará el QR directo a este chat para habilitar tu posición."
+            "📲 *Próximo paso:* Una vez recibidos tus datos, el equipo administrativo procesará tu registro, te asignará a un equipo de 10 miembros y te enviará el QR directo a este chat."
         );
 
     } else if (texto === '3') {
         return (
             "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
             "Un responsable administrativo te atenderá de manera directa.\n\n" +
-            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre las reglas, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
+            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre el cronograma dominical, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
         );
 
     } else {
