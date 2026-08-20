@@ -57,71 +57,73 @@ function generarRespuesta(texto) {
         "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
         "1️⃣ ¿Qué es Pasanaku Tech y Reglas del Juego?\n" +
         "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
-        "3️⃣ Solicitar QR de Pago de Comisión (1%)\n" +
-        "4️⃣ Hablar con un Asesor / Soporte\n\n" +
-        "💡 _Escribe *menu* en cualquier momento para volver a ver estas opciones._";
+        "3️⃣ Hablar con un Asesor / Soporte\n\n" +
+        "💡 _Escribe *Inicio* en cualquier momento para volver a ver estas opciones._";
 
-    if (['hola', 'buenas', 'inicio', 'menu', 'menú', '0'].includes(texto)) {
+    if (['hola', 'buenas', 'inicio', '0'].includes(texto)) {
         return menuPrincipal;
 
     } else if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DEL PASANAKU*\n\n" +
-            "• *Ingreso en Pareja (Padrinazgo):* El registro es de 2 en 2. Cada participante debe ingresar con su ahijado/padrino, actuando mutuamente como garantes para asegurar el pago total de sus cuotas.\n\n" +
-            "• *Comisión de Plataforma:* Sin cobros fijos administrativos ni por cabeza. Únicamente se abona una comisión inicial del *1% del valor de la cuota* de la categoría elegida.\n\n" +
-            "• *Entrega del Pozo:* Al recibir el pozo en tu turno designado:\n" +
-            "  - *Turnos iniciales/medios:* Recibirás el *50% efectivo* del pozo. El 50% restante se retiene para cubrir de forma garantizada tus aportes futuros.\n" +
-            "  - *Turnos finales:* Se retendrá únicamente el porcentaje justo para cubrir los turnos restantes, entregándote el saldo completo disponible.\n\n" +
-            "Escribe *2* para ver las categorías disponibles e inscribirte."
+            "• *Entrega del Pozo Completo:* Se elimina cualquier tipo de retención porcentual sobre el pozo ganado. El participante recibe el *100% del monto acumulado* en su turno correspondiente.\n\n" +
+            "• *Fondo de Emergencia (50 Bs):* Cada participante aporta un depósito de garantía de *50 Bs*, destinado a cubrir imprevistos en caso de retraso en los pagos de algún miembro. _Este monto se devuelve íntegramente al finalizar el ciclo del juego._\n\n" +
+            "• *Ingreso en Pareja (Padrinazgo):* El registro se realiza de 2 en 2. Cada participante ingresa con su ahijado/padrino, actuando como garantes mutuos para asegurar el cumplimiento del juego.\n\n" +
+            "• *Sorteo de Turnos:* Al completarse el grupo, se asignará un número a cada participante. El orden de los turnos se determinará mediante un sorteo transparente con app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7* / *Equipo #5 Cat. B - Juan de los Palotes N° 9*).\n\n" +
+            "• *Comisión de Plataforma:* 1% único sobre el valor de la cuota inicial de la categoría elegida.\n\n" +
+            "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
     } else if (texto === '2') {
         return (
             "🎮 *CATEGORÍAS DE JUEGO Y MODO DE INGRESO*\n\n" +
             "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
-            "A) *Categoría 100 BS* (Cuota: 100 Bs | Comisión 1%: 1 Bs)\n" +
-            "B) *Categoría 200 BS* (Cuota: 200 Bs | Comisión 1%: 2 Bs)\n" +
-            "C) *Categoría 300 BS* (Cuota: 300 Bs | Comisión 1%: 3 Bs)\n\n" +
-            "📌 *Requisito Obligatorio:* Para completar tu registro debes indicar el Nombre y WhatsApp de tu Padrino/Garante registrado.\n\n" +
-            "Escribe *menu* para volver al inicio."
+            "A) *Categoría 100 BS*\n" +
+            "   • Cuota inicial: 100 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 1 Bs\n" +
+            "   • Total a depositar al inicio: *151 Bs*\n\n" +
+            "B) *Categoría 200 BS*\n" +
+            "   • Cuota inicial: 200 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 2 Bs\n" +
+            "   • Total a depositar al inicio: *252 Bs*\n\n" +
+            "C) *Categoría 300 BS*\n" +
+            "   • Cuota inicial: 300 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 3 Bs\n" +
+            "   • Total a depositar al inicio: *353 Bs*\n\n" +
+            "📌 *Requisito:* Debes indicar el Nombre y WhatsApp de tu Padrino/Garante registrado.\n\n" +
+            "Escribe *Inicio* para volver al menú principal."
         );
 
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
-        let comision = texto === 'a' ? '1 BS' : texto === 'b' ? '2 BS' : '3 BS';
+        let detalle = texto === 'a' 
+            ? "100 Bs (Cuota) + 50 Bs (Fondo Emergencia) + 1 Bs (Comisión 1%) = *151 Bs*" 
+            : texto === 'b' 
+            ? "200 Bs (Cuota) + 50 Bs (Fondo Emergencia) + 2 Bs (Comisión 1%) = *252 Bs*" 
+            : "300 Bs (Cuota) + 50 Bs (Fondo Emergencia) + 3 Bs (Comisión 1%) = *353 Bs*";
 
         return (
-            `📝 *REGISTRO EN CATEGORÍA ${cat}*\n\n` +
+            `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
             `Has seleccionado la *Categoría de ${cat}*.\n` +
-            `• Comisión inicial de mantenimiento (1%): *${comision}*\n\n` +
+            `• Desglose del pago inicial: ${detalle}\n` +
+            `_(Recuerda que los 50 Bs del Fondo de Emergencia se te devuelven al finalizar el ciclo)._\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje los siguientes datos:\n\n" +
             "1. Tu Nombre Completo\n" +
             "2. Tu CI / Documento\n" +
             "3. Nombre Completo de tu Padrino/Garante\n" +
             "4. Número de WhatsApp de tu Padrino/Garante\n\n" +
-            "Un administrador validará la información de la pareja y te enviará el QR de pago."
+            "📩 *Envío de QR:* Una vez recibidos tus datos, el equipo administrativo te enviará por este medio el código QR oficial con el monto exacto correspondiente a tu categoría para habilitar tu lugar."
         );
 
     } else if (texto === '3') {
         return (
-            "💳 *SOLICITUD DE QR DE PAGO / COMISIÓN*\n\n" +
-            "Por favor, indica tu nombre completo y la categoría en la que te inscribiste.\n\n" +
-            "El equipo administrativo te enviará por este medio el QR / Cuenta Bancaria para abonar la comisión del 1% y habilitar tu posición en la tabla del Pasanaku.\n\n" +
-            "Escribe *4* si requieres atención directa."
-        );
-
-    } else if (texto === '4') {
-        return (
-            "👨‍💼 *ATENCIÓN AL CLIENTE / ADMINISTRACIÓN*\n\n" +
+            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE*\n\n" +
             "Un responsable administrativo te atenderá de manera directa.\n\n" +
-            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (inscripción de parejas, envío de comprobante QR o dudas). Te responderemos a la brevedad."
+            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre el juego, comprobantes de pago o sorteos). Te responderemos a la brevedad posible."
         );
 
     } else {
         return (
             "Opción no válida. 🤔\n\n" +
-            "Por favor escribe un número del *1 al 4*, o la letra de la categoría (*A, B o C*).\n" +
-            "Escribe *menu* para ver el menú principal."
+            "Por favor escribe un número del *1 al 3*, o la letra de la categoría (*A, B o C*).\n" +
+            "Escribe *Inicio* para ver el menú principal."
         );
     }
 }
