@@ -4,6 +4,9 @@ const app = express();
 
 app.use(express.json());
 
+// Memoria temporal en servidor para rastrear la conversación de cada usuario
+const estadoUsuarios = {};
+
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
     res.status(200).send('Servidor de Pasanaku-Tech Bot activo');
@@ -39,10 +42,10 @@ app.post('/webhook', async (req, res) => {
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
-                const respuesta = generarRespuesta(userText);
+                const respuesta = generarRespuesta(from, userText);
                 
-                // Si la función devuelve una respuesta válida, se realiza el envío
-                if (respuesta) {
+                // Si la función devuelve null, el bot PERMANECE EN SILENCIO ABSOLUTO
+                if (respuesta !== null) {
                     await responderWhatsApp(from, respuesta);
                 }
             }
@@ -62,7 +65,8 @@ function generarRespuesta(textoOriginal) {
         'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
         'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
         'super', 'súper', 'chala', 'de lux', 'joya', 'belleza', 'ya', 'ya de una',
-        'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está'
+        'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está', 'yala'
+
     ];
 
     // Si el texto coincide exactamente con alguna palabra del filtro, el bot permanece en silencio
@@ -84,28 +88,25 @@ function generarRespuesta(textoOriginal) {
 
     } else if (texto === '1') {
         return (
+
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
-            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado con la finalidad de garantizar un *flujo de capital constante, seguro, altamente fluido y libre de intermediarios tradicionales*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
-            "📅 *CICLOS Y CRONOGRAMA SEMANAL*\n" +
-            "• *Día de Operación:* El juego opera en ciclos semanales **empezando y cerrando cada día Domingo**.\n" +
-            "• Los domingos se realizan las aperturas de nuevas jugadas y se efectúa el desembolso directo del pozo acumulado al participante correspondiente de la semana.\n\n" +
-            "👥 *ESTRUCTURA DE EQUIPOS (10 MIEMBROS)*\n" +
-            "• Cada grupo o sala de juego se conforma estrictamente por un **total de 10 miembros participantes**.\n" +
-            "• Al completarse los 10 cupos, el sistema habilita automáticamente un nuevo equipo dentro de esa misma categoría.\n" +
-            "  - *Ejemplo:* Si en la Categoría 100 Bs se inscriben 12 personas, los primeros 10 conforman el **Equipo #1** y los 2 restantes pasan a liderar el **Equipo #2**.\n\n" +
+            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un *flujo de capital constante, seguro y fluido*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
+            "⏰ *CRONOGRAMA OPERATIVO DOMINICAL*\n" +
+            "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
+            "  _(Se envían alertas preventivas a las 10:30 AM y 11:30 AM para confirmar registro y pago de plataforma)._\n\n" +
+            "• *Ventana de Liquidación y Pagos:* De 19:00 PM a 20:00 PM.\n" +
+            "  _(Se envían alertas a las 18:30 PM con el QR del ganador del turno y a las 19:30 PM como recordatorio final de envío de comprobante)._\n\n" +
+            "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS)*\n" +
+            "• Los participantes se registran en orden correlativo en salas de **10 miembros**.\n" +
+            "• Del #1 al #10 conforman el **Equipo #1**. Al completarse, del #11 al #20 conforman el **Equipo #2**, y así sucesivamente.\n\n" +
             "📌 *MECÁNICA DEL JUEGO*\n" +
-            "• *Pozo Íntegro (100%):* Recibes el pozo completo acumulado en tu turno sin ninguna retención o descuento sobre tus ganancias.\n" +
-            "• *Ingreso en Pareja (Garante Mutuo):* El registro es de 2 en 2 (padrino/ahijado), actuando ambos como respaldo para garantizar el pago puntual de las cuotas.\n" +
-            "• *Sorteo Transparente:* Al completarse la sala de 10 miembros, se asigna un número a cada participante y se sortea el orden de turnos mediante una app aleatoria (ej. *Equipo #1 Cat. A - Juan Pérez N° 7*).\n\n" +
-            "🛡️ *DETALLE DEL FONDO DE EMERGENCIA (50 BS)*\n" +
-            "• *Propósito:* Es un pozo de reserva colectivo destinado a respaldar el juego si algún participante sufre un imprevisto y se retrasa en su cuota, garantizando que el ganador del turno reciba su dinero el domingo a tiempo.\n" +
-            "• *Devolución Total:* Es un depósito en garantía que se te reembolsa al 100% al finalizar exitosamente el ciclo del juego.\n\n" +
-            "💡 *EXPLICACIÓN DE LA COMISIÓN ÚNICA DEL 1%*\n" +
-            "• Corresponde al mantenimiento y administración de la plataforma Pasanaku-Tech. Se calcula únicamente sobre la cuota inicial de la categoría elegida.\n" +
-            "• *Ejemplo Práctico:* En la Categoría de 200 Bs, el 1% es *2 Bs*. Pagas 200 Bs (cuota) + 50 Bs (fondo) + 2 Bs (comisión) = *252 Bs* en tu primer depósito. En los siguientes turnos solo pagas tu cuota de 200 Bs.\n\n" +
-            "💳 *PAGO E INGRESO SIMPLIFICADO*\n" +
-            "• Tras enviar tus datos de registro, la administración te enviará directamente a este chat el QR oficial consolidado con el monto exacto correspondiente.\n\n" +
+            "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 (padrino/ahijado), actuando ambos como respaldo del cumplimiento semanal.\n\n" +
+            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE PLATAFORMA*\n" +
+            "• Único pago fijo de **Bs. 3** por participante (vía QR al momento del registro).\n\n" +
+            "💳 *PAGO E INGRESO AL SISTEMA*\n" +
+            "• Tras enviar tu nombre completo, recibirás el QR por los Bs. 3 de uso de plataforma. Las cuotas semanales de tu categoría se pagan directamente al participante beneficiario en el horario de 19:00 a 20:00 PM los domingos.\n\n" +
             "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
@@ -114,50 +115,51 @@ function generarRespuesta(textoOriginal) {
             "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
             "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
             "A) *Categoría 100 BS*\n" +
-            "   • Cuota inicial: 100 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 1 Bs\n" +
-            "   • Total en el QR que recibirás: *151 Bs*\n\n" +
+            "   • Cuota semanal: 100 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
             "B) *Categoría 200 BS*\n" +
-            "   • Cuota inicial: 200 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 2 Bs\n" +
-            "   • Total en el QR que recibirás: *252 Bs*\n\n" +
+            "   • Cuota semanal: 200 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
             "C) *Categoría 300 BS*\n" +
-            "   • Cuota inicial: 300 Bs | Fondo Garantía: 50 Bs | Comisión (1%): 3 Bs\n" +
-            "   • Total en el QR que recibirás: *353 Bs*\n\n" +
+            "   • Cuota semanal: 300 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
             "Escribe *Inicio* para volver al menú principal."
         );
 
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
+        estadoUsuarios[userId] = 'ESPERANDO_NOMBRE';
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
-        let detalle = texto === 'a' 
-            ? "100 Bs (Cuota) + 50 Bs (Fondo Emergencia) + 1 Bs (Comisión 1%) = *151 Bs*" 
-            : texto === 'b' 
-            ? "200 Bs (Cuota) + 50 Bs (Fondo Emergencia) + 2 Bs (Comisión 1%) = *252 Bs*" 
-            : "300 Bs (Cuota) + 50 Bs (Fondo Emergencia) + 3 Bs (Comisión 1%) = *353 Bs*";
+        let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
 
         return (
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
             `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
-            `• Desglose consolidado del QR: ${detalle}\n` +
-            `_(Los 50 Bs del Fondo de Emergencia se devuelven al finalizar el ciclo)._\n\n` +
+            `• Cuota del juego: *${cuota}* por semana (pagada directamente al participante de turno el domingo entre 19:00 y 20:00 PM).\n` +
+            `• Pago inicial de plataforma: *3 Bs* (único pago vía QR al registrarte en la ventana de 11:00 AM a 12:00 PM).\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje tu:\n\n" +
             "1. Nombre Completo\n\n" +
-            "📲 *Próximo paso:* Una vez recibido tu nombre, el equipo administrativo procesará tu registro, te asignará a un equipo de 10 miembros y te enviará el QR directo a este chat."
+            "📲 *Próximo paso:* Al enviar tu nombre, te asignaremos correlativamente en el equipo correspondiente de 10 miembros y te enviaremos el QR de 3 Bs."
         );
 
     } else if (texto === '3') {
+        // Bloqueamos respuestas automáticas futuras marcando el estado de este usuario
+        estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
         return (
-            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
-            "Un responsable administrativo te atenderá de manera directa.\n\n" +
-            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre el cronograma dominical, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
+            "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
+            "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
+            "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre Completo* y el detalle de tu consulta en este chat. Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
-    } else {
-        // Captura el nombre completo enviado por el usuario
+    } else if (estadoUsuarios[userId] === 'ESPERANDO_NOMBRE') {
+        // Captura el nombre SOLO si venía de elegir A, B o C
+        estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
         return (
-            "✅ *¡Registro Recibido!*\n\n" +
-            `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
-            "El equipo administrativo procesará tu inscripción para asignarte a un equipo de 10 miembros. En breve te enviaremos por este chat el código QR correspondiente para formalizar tu lugar.\n\n" +
-            "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
-        );
+            "✅ *¡Datos recibidos correctamente!*\n\n" +
+            `Hemos registrado el nombre: *${texto.toUpperCase()}*.\n\n` +
+            "El equipo administrativo ya ha recibido tu solicitud. En breve nos pondremos en contacto contigo por este mismo chat para enviarte el QR oficial y formalizar tu ingreso al equipo de 10 miembros.\n\n" +
+            "💡 _Escribe *Inicio* para ver el menú principal._"
+  );
+
+    } else {
+        // Cualquier otro texto fuera del flujo no hace NADA
+        return null;
     }
 }
 
