@@ -4,9 +4,6 @@ const app = express();
 
 app.use(express.json());
 
-// Memoria temporal en servidor para rastrear la conversación de cada usuario
-const estadoUsuarios = {};
-
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
     res.status(200).send('Servidor de Pasanaku-Tech Bot activo');
@@ -42,10 +39,9 @@ app.post('/webhook', async (req, res) => {
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
-                const respuesta = generarRespuesta(from, userText);
+                const respuesta = generarRespuesta(userText);
                 
-                // Si la función devuelve null, el bot PERMANECE EN SILENCIO ABSOLUTO
-                if (respuesta !== null) {
+                if (respuesta) {
                     await responderWhatsApp(from, respuesta);
                 }
             }
@@ -60,23 +56,23 @@ app.post('/webhook', async (req, res) => {
 function generarRespuesta(textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
-    // Filtro extendido de palabras de cortesía, afirmaciones y modismos locales a ignorar
+    // Filtro de cortesías, afirmaciones y modismos locales a ignorar
     const palabrasIgnoradas = [
         'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
         'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
         'super', 'súper', 'chala', 'de lux', 'joya', 'belleza', 'ya', 'ya de una',
-        'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está', 'yala'
-
+        'dale', 'de una', 'buenisimo', 'buenísimo', 'ya esta', 'ya está',
+        'ya perfecto', 'ya perfecto muchas gracias', 'perfecto muchas gracias',
+        'ya gracias', 'esta bien', 'está bien', 'esperare', 'esperaré', 'yala'
     ];
 
-    // Si el texto coincide exactamente con alguna palabra del filtro, el bot permanece en silencio
     if (palabrasIgnoradas.includes(texto)) {
         return null;
     }
 
     const menuPrincipal = 
         "🤝 *Bienvenido a Pasanaku-Tech*\n" +
-        "_Plataforma de Ahorro Colectivo y Pasanaku Digital_\n\n" +
+        "_Plataforma de Ahorro Colectivo: Pasanaku Digital_\n\n" +
         "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
         "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
         "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
@@ -88,7 +84,6 @@ function generarRespuesta(textoOriginal) {
 
     } else if (texto === '1') {
         return (
-
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un *flujo de capital constante, seguro y fluido*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
@@ -103,7 +98,7 @@ function generarRespuesta(textoOriginal) {
             "📌 *MECÁNICA DEL JUEGO*\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n" +
             "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 (padrino/ahijado), actuando ambos como respaldo del cumplimiento semanal.\n\n" +
-            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE PLATAFORMA*\n" +
+            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA*\n" +
             "• Único pago fijo de **Bs. 3** por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA*\n" +
             "• Tras enviar tu nombre completo, recibirás el QR por los Bs. 3 de uso de plataforma. Las cuotas semanales de tu categoría se pagan directamente al participante beneficiario en el horario de 19:00 a 20:00 PM los domingos.\n\n" +
@@ -124,7 +119,6 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
-        estadoUsuarios[userId] = 'ESPERANDO_NOMBRE';
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
         let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
 
@@ -139,27 +133,20 @@ function generarRespuesta(textoOriginal) {
         );
 
     } else if (texto === '3') {
-        // Bloqueamos respuestas automáticas futuras marcando el estado de este usuario
-        estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
             "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
             "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre Completo* y el detalle de tu consulta en este chat. Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
-    } else if (estadoUsuarios[userId] === 'ESPERANDO_NOMBRE') {
-        // Captura el nombre SOLO si venía de elegir A, B o C
-        estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
+    } else {
         return (
             "✅ *¡Datos recibidos correctamente!*\n\n" +
             `Hemos registrado el nombre: *${texto.toUpperCase()}*.\n\n` +
             "El equipo administrativo ya ha recibido tu solicitud. En breve nos pondremos en contacto contigo por este mismo chat para enviarte el QR oficial y formalizar tu ingreso al equipo de 10 miembros.\n\n" +
             "💡 _Escribe *Inicio* para ver el menú principal._"
-  );
 
-    } else {
-        // Cualquier otro texto fuera del flujo no hace NADA
-        return null;
+        );
     }
 }
 
