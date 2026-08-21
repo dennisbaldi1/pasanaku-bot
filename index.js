@@ -152,7 +152,7 @@ function generarRespuesta(userId, textoOriginal) {
         estadoUsuarios[userId] = 'ESPERANDO_SOPORTE';
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
-            "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
+            "Gracias por contactarte. Mi nombre es: Pasanaku-Tech. (tú asistente Virtual)\n\n" +
             "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre y el detalle de tu consulta...* Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
