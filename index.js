@@ -141,9 +141,8 @@ function generarRespuesta(textoOriginal) {
 
     } else {
         return (
-            "✅ *¡Datos recibidos correctamente!*\n\n" +
-            `Hemos registrado el nombre: *${texto.toUpperCase()}*.\n\n` +
-            "El equipo administrativo ya ha recibido tu solicitud. En breve nos pondremos en contacto contigo por este mismo chat para enviarte el QR oficial y formalizar tu ingreso al equipo de 10 miembros.\n\n" +
+            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
+            "Un responsable administrativo te atenderá de manera directa.\n\n" +
             "💡 _Escribe *Inicio* para ver el menú principal._"
 
         );
