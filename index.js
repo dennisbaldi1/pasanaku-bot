@@ -4,10 +4,10 @@ const app = express();
 
 app.use(express.json());
 
-// Memoria temporal en el servidor para rastrear el flujo de cada usuario por su número
+// Memoria temporal en el servidor para rastrear el flujo de cada usuario
 const estadoUsuarios = {};
 
-// Número telefónico del administrador para recibir notificaciones
+// Número telefónico personal del administrador para recibir las alertas
 const MI_NUMERO_WHATSAPP = "59175767760";
 
 // 1. Ruta raíz para mantener el servicio activo
@@ -41,7 +41,7 @@ app.post('/webhook', async (req, res) => {
             body.entry[0].changes[0].value.messages[0]
         ) {
             const message = body.entry[0].changes[0].value.messages[0];
-            const from = message.from;
+            const from = message.from; // Número del participante
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
@@ -157,17 +157,15 @@ async function procesarMensaje(userId, textoOriginal) {
         const categoria = estadoUsuarios[userId].replace('ESPERANDO_NOMBRE_', '');
         estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
 
-        // Notificación enviada a tu WhatsApp Personal
-        if (MI_NUMERO_WHATSAPP) {
-            const alertaAdmin = 
-                "🚨 *NUEVO REGISTRO RECIBIDO*\n\n" +
-                `👤 *Nombre:* ${textoOriginal}\n` +
-                `📱 *Número:* https://wa.me/${userId}\n` +
-                `📊 *Categoría:* ${categoria}\n\n` +
-                "📌 _Acción requerida: Enviar QR de Bs. 3 para validar cupo._";
-            
-            await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
-        }
+        // Alerta de Registro enviada directamente a tu teléfono personal
+        const alertaAdmin = 
+            "🚨 *NUEVO REGISTRO RECIBIDO*\n\n" +
+            `👤 *Nombre:* ${textoOriginal}\n` +
+            `📱 *Número:* https://wa.me/${userId}\n` +
+            `📊 *Categoría:* ${categoria}\n\n` +
+            "📌 _Acción requerida: Enviar QR de Bs. 3 para validar cupo._";
+        
+        await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
 
         return (
             "✅ *¡Registro Recibido!*\n\n" +
@@ -179,16 +177,14 @@ async function procesarMensaje(userId, textoOriginal) {
     } else if (estadoUsuarios[userId] === 'ESPERANDO_SOPORTE') {
         estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
 
-        // Notificación enviada a tu WhatsApp Personal
-        if (MI_NUMERO_WHATSAPP) {
-            const alertaSoporte = 
-                "👨‍💼 *NUEVA SOLICITUD DE SOPORTE*\n\n" +
-                `📱 *Número del usuario:* https://wa.me/${userId}\n` +
-                `💬 *Mensaje:* "${textoOriginal}"\n\n` +
-                "📌 _Acción requerida: Responder directamente a este número._";
-            
-            await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaSoporte);
-        }
+        // Alerta de Soporte enviada directamente a tu teléfono personal
+        const alertaSoporte = 
+            "👨‍💼 *NUEVA SOLICITUD DE SOPORTE*\n\n" +
+            `📱 *Número del usuario:* https://wa.me/${userId}\n` +
+            `💬 *Mensaje:* "${textoOriginal}"\n\n` +
+            "📌 _Acción requerida: Responder directamente a este número._";
+        
+        await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaSoporte);
 
         return (
             "✅ *¡Consulta de Soporte Recibida!*\n\n" +
@@ -208,7 +204,7 @@ async function responderWhatsApp(to, text) {
     const whatsappToken = process.env.WHATSAPP_TOKEN;
 
     try {
-        await axios({
+        const response = await axios({
             method: 'POST',
             url: `https://graph.facebook.com/v18.0/${phoneNumberId}/messages`,
             headers: {
@@ -222,9 +218,9 @@ async function responderWhatsApp(to, text) {
                 text: { body: text }
             }
         });
-        console.log(`Mensaje enviado con éxito a ${to}`);
+        console.log(`✅ Mensaje enviado exitosamente a: ${to}`);
     } catch (error) {
-        console.error('Error enviando mensaje a WhatsApp:', error.response ? JSON.stringify(error.response.data) : error.message);
+        console.error('❌ Error enviando mensaje:', error.response ? JSON.stringify(error.response.data) : error.message);
     }
 }
 
