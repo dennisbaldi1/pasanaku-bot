@@ -4,6 +4,9 @@ const app = express();
 
 app.use(express.json());
 
+// Memoria temporal en el servidor para rastrear el flujo de cada usuario por su número
+const estadoUsuarios = {};
+
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
     res.status(200).send('Servidor de Pasanaku-Tech Bot activo');
@@ -39,9 +42,10 @@ app.post('/webhook', async (req, res) => {
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
-                const respuesta = generarRespuesta(userText);
+                // Pasamos "from" (userId) y "userText" a la función de respuestas
+                const respuesta = generarRespuesta(from, userText);
                 
-                if (respuesta) {
+                if (respuesta !== null) {
                     await responderWhatsApp(from, respuesta);
                 }
             }
@@ -53,10 +57,10 @@ app.post('/webhook', async (req, res) => {
 });
 
 // 4. Flujo de respuestas interactivas de Pasanaku-Tech
-function generarRespuesta(textoOriginal) {
+function generarRespuesta(userId, textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
-    // Filtro de cortesías, afirmaciones y modismos locales a ignorar
+    // Filtro de cortesías y modismos locales a ignorar en cualquier etapa
     const palabrasIgnoradas = [
         'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
         'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
@@ -70,19 +74,27 @@ function generarRespuesta(textoOriginal) {
         return null;
     }
 
-    const menuPrincipal = 
-        "🤝 *Bienvenido a Pasanaku-Tech*\n" +
-        "_Plataforma de Ahorro Colectivo: Pasanaku Digital_\n\n" +
-        "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
-        "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
-        "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
-        "3️⃣ Hablar con un Asesor / Soporte\n\n" +
-        "💡 _Escribe *Inicio* en cualquier momento para volver a ver estas opciones._";
+    // Si el usuario escribe Inicio u Hola, reiniciamos su estado para reabrir el menú
+    if (['hola', 'buenas', 'inicio', '0', 'menu', 'menú'].includes(texto)) {
+        estadoUsuarios[userId] = 'MENU_PRINCIPAL';
+        return (
+            "🤝 *Bienvenido a Pasanaku-Tech*\n" +
+            "_Plataforma de Ahorro Colectivo: Pasanaku Digital_\n\n" +
+            "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
+            "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
+            "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
+            "3️⃣ Hablar con un Asesor / Soporte\n\n" +
+            "💡 _Escribe *Inicio* en cualquier momento para volver a ver estas opciones._"
+        );
+    }
 
-    if (['hola', 'buenas', 'inicio', '0'].includes(texto)) {
-        return menuPrincipal;
+    // SI EL USUARIO YA COMPLETÓ REGISTRO O SOPORTE, SILENCIO ABSOLUTO (Derivación a Asesor)
+    if (estadoUsuarios[userId] === 'EN_ATENCION_HUMANA' || estadoUsuarios[userId] === 'REGISTRO_COMPLETADO') {
+        return null;
+    }
 
-    } else if (texto === '1') {
+    // OPCIÓN 1: Reglas
+    if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
@@ -105,6 +117,7 @@ function generarRespuesta(textoOriginal) {
             "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
+    // OPCIÓN 2: Categorías
     } else if (texto === '2') {
         return (
             "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
@@ -118,7 +131,9 @@ function generarRespuesta(textoOriginal) {
             "Escribe *Inicio* para volver al menú principal."
         );
 
+    // ELECCIÓN DE CATEGORÍA A, B o C (Pasa a estado ESPERANDO_NOMBRE_REGISTRO)
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
+        estadoUsuarios[userId] = 'ESPERANDO_NOMBRE_REGISTRO';
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
         let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
 
@@ -130,37 +145,41 @@ function generarRespuesta(textoOriginal) {
             "Para completar tu inscripción, envía en un solo mensaje tu:\n\n" +
             "1. Nombre Completo\n\n" +
             "📲 *Próximo paso:* Al enviar tu nombre, te asignaremos correlativamente en el equipo correspondiente de 10 miembros y te enviaremos el QR de 3 Bs."
-	} else if (estadoUsuarios[userId] === 'ESPERANDO_NOMBRE') {
-        // Captura el nombre SOLO si venía de elegir A, B o C
+        );
+
+    // OPCIÓN 3: Soporte (Pasa a estado ESPERANDO_SOPORTE)
+    } else if (texto === '3') {
+        estadoUsuarios[userId] = 'ESPERANDO_SOPORTE';
+        return (
+            "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
+            "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
+            "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre Completo* y el detalle de tu consulta en este chat. Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
+        );
+
+    // CAPTURA DE NOMBRE SEGÚN EL ESTADO ACTIVO
+    } else if (estadoUsuarios[userId] === 'ESPERANDO_NOMBRE_REGISTRO') {
         estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
         return (
-            "✅ *¡Datos recibidos correctamente!*\n\n" +
-            `Hemos registrado el nombre: *${texto.toUpperCase()}*.\n\n` +
-            "El equipo administrativo ya ha recibido tu solicitud. En breve nos pondremos en contacto contigo por este mismo chat para enviarte el QR oficial y formalizar tu ingreso al equipo de 10 miembros.\n\n" +
-  );
+            "✅ *¡Registro Recibido!*\n\n" +
+            `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
+            "El equipo administrativo procesará tu inscripción para asignarte en orden de llegada al equipo de 10 miembros correspondientes. En breve te enviaremos por este chat el QR de Bs. 3 por uso de plataforma para oficializar tu lugar.\n\n" +
+            "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
+        );
+
+    } else if (estadoUsuarios[userId] === 'ESPERANDO_SOPORTE') {
+        estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
+        return (
+            "✅ *¡Consulta de Soporte Recibida!*\n\n" +
+            `Hemos registrado tu mensaje: *"${textoOriginal}"*.\n\n` +
+            "Un asesor administrativo revisará tu caso y te responderá de forma directa en este chat.\n\n" +
+            "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
+        );
 
     } else {
-        // Cualquier otro texto fuera del flujo no hace NADA
+        // Cualquier otro texto fuera del flujo no responde nada
         return null;
     }
-        );
-
-    } else if (texto === '3') {
-        return (
-            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
-            "Un responsable administrativo te atenderá de manera directa.\n\n" +
-            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre el cronograma dominical, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
-        );
-
-    } else {
-        return (
-            "Opción no válida. 🤔\n\n" +
-            "Por favor escribe un número del *1 al 3*, o la letra de la categoría (*A, B o C*).\n" +
-            "Escribe *Inicio* para ver el menú principal de Pasanaku-Tech."
-        );
-    }
 }
-
 
 // 5. Función para enviar mensajes mediante la API de Meta
 async function responderWhatsApp(to, text) {
