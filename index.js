@@ -7,7 +7,7 @@ app.use(express.json());
 // Memoria temporal en el servidor para rastrear el flujo de cada usuario por su número
 const estadoUsuarios = {};
 
-// Número telefónico del administrador (incluyendo código de país, ej: 59170000000)
+// Número telefónico del administrador para recibir notificaciones
 const MI_NUMERO_WHATSAPP = "59175767760";
 
 // 1. Ruta raíz para mantener el servicio activo
@@ -149,7 +149,7 @@ async function procesarMensaje(userId, textoOriginal) {
         estadoUsuarios[userId] = 'ESPERANDO_SOPORTE';
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
-            "Gracias por contactarnos. Mi nombre es: *Pasanaku-Tech. tú asistente Virtual:)*\n\n" +
+            "Gracias por contactarnos. Mi nombre es: *Pasanaku-Tech, tu Asistente Virtual :)*\n\n" +
             "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre y el detalle de tu consulta...* Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
@@ -157,7 +157,7 @@ async function procesarMensaje(userId, textoOriginal) {
         const categoria = estadoUsuarios[userId].replace('ESPERANDO_NOMBRE_', '');
         estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
 
-        // Notificación enviada automáticamente a tu WhatsApp Personal
+        // Notificación enviada a tu WhatsApp Personal
         if (MI_NUMERO_WHATSAPP) {
             const alertaAdmin = 
                 "🚨 *NUEVO REGISTRO RECIBIDO*\n\n" +
@@ -179,7 +179,7 @@ async function procesarMensaje(userId, textoOriginal) {
     } else if (estadoUsuarios[userId] === 'ESPERANDO_SOPORTE') {
         estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
 
-        // Notificación enviada automáticamente a tu WhatsApp Personal
+        // Notificación enviada a tu WhatsApp Personal
         if (MI_NUMERO_WHATSAPP) {
             const alertaSoporte = 
                 "👨‍💼 *NUEVA SOLICITUD DE SOPORTE*\n\n" +
@@ -222,8 +222,9 @@ async function responderWhatsApp(to, text) {
                 text: { body: text }
             }
         });
+        console.log(`Mensaje enviado con éxito a ${to}`);
     } catch (error) {
-        console.error('Error enviando mensaje a WhatsApp:', error.response ? error.response.data : error.message);
+        console.error('Error enviando mensaje a WhatsApp:', error.response ? JSON.stringify(error.response.data) : error.message);
     }
 }
 
