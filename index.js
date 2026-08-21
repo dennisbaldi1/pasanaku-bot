@@ -8,7 +8,7 @@ app.use(express.json());
 const estadoUsuarios = {};
 
 // Número telefónico del administrador (incluyendo código de país, ej: 59170000000)
-const MI_NUMERO_WHATSAPP = process.env.ADMIN_PHONE_NUMBER;
+const MI_NUMERO_WHATSAPP = "59175767760";
 
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
