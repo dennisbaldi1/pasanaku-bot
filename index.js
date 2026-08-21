@@ -137,7 +137,6 @@ function generarRespuesta(textoOriginal) {
             "✅ *¡Datos recibidos correctamente!*\n\n" +
             `Hemos registrado el nombre: *${texto.toUpperCase()}*.\n\n` +
             "El equipo administrativo ya ha recibido tu solicitud. En breve nos pondremos en contacto contigo por este mismo chat para enviarte el QR oficial y formalizar tu ingreso al equipo de 10 miembros.\n\n" +
-            "💡 _Escribe *Inicio* para ver el menú principal._"
   );
 
     } else {
@@ -148,19 +147,20 @@ function generarRespuesta(textoOriginal) {
 
     } else if (texto === '3') {
         return (
-            "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
-            "Gracias por contactarnos. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
-            "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre Completo* y el detalle de tu consulta en este chat. Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
+            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
+            "Un responsable administrativo te atenderá de manera directa.\n\n" +
+            "Por favor, déjanos tu *Nombre completo* y la consulta o trámite que deseas realizar (dudas sobre el cronograma dominical, confirmación de pagos o fechas de sorteo). Te responderemos a la brevedad posible."
         );
 
     } else {
         return (
-            "👨‍💼 *ATENCIÓN AL CLIENTE / SOPORTE PASANAKU-TECH*\n\n" +
-            "Un responsable administrativo te atenderá de manera directa.\n\n" +
-
+            "Opción no válida. 🤔\n\n" +
+            "Por favor escribe un número del *1 al 3*, o la letra de la categoría (*A, B o C*).\n" +
+            "Escribe *Inicio* para ver el menú principal de Pasanaku-Tech."
         );
     }
 }
+
 
 // 5. Función para enviar mensajes mediante la API de Meta
 async function responderWhatsApp(to, text) {
