@@ -153,7 +153,7 @@ function generarRespuesta(userId, textoOriginal) {
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
             "Gracias por contactarte. Mi nombre es el asistente virtual de Pasanaku-Tech.\n\n" +
-            "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre Completo* y el detalle de tu consulta en este chat. Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
+            "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre y el detalle de tu consulta...* Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
     // CAPTURA DE NOMBRE SEGÚN EL ESTADO ACTIVO
