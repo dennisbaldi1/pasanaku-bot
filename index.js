@@ -7,6 +7,9 @@ app.use(express.json());
 // Memoria temporal en el servidor para rastrear el flujo de cada usuario por su número
 const estadoUsuarios = {};
 
+// Número telefónico del administrador (incluyendo código de país, ej: 59170000000)
+const MI_NUMERO_WHATSAPP = process.env.ADMIN_PHONE_NUMBER;
+
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
     res.status(200).send('Servidor de Pasanaku-Tech Bot activo');
@@ -42,8 +45,7 @@ app.post('/webhook', async (req, res) => {
 
             if (message.type === 'text') {
                 const userText = message.text.body.trim();
-                // Pasamos "from" (userId) y "userText" a la función de respuestas
-                const respuesta = generarRespuesta(from, userText);
+                const respuesta = await procesarMensaje(from, userText);
                 
                 if (respuesta !== null) {
                     await responderWhatsApp(from, respuesta);
@@ -56,11 +58,11 @@ app.post('/webhook', async (req, res) => {
     }
 });
 
-// 4. Flujo de respuestas interactivas de Pasanaku-Tech
-function generarRespuesta(userId, textoOriginal) {
+// 4. Flujo de Respuestas y Notificación al Administrador
+async function procesarMensaje(userId, textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
-    // Filtro de cortesías y modismos locales a ignorar en cualquier etapa
+    // Filtro de cortesías a ignorar
     const palabrasIgnoradas = [
         'gracias', 'muchas gracias', 'ok', 'okay', 'listo', 'perfecto', 
         'entendido', 'vale', 'de acuerdo', 'genial', 'excelente', 'thumbs_up',
@@ -74,7 +76,6 @@ function generarRespuesta(userId, textoOriginal) {
         return null;
     }
 
-    // Si el usuario escribe Inicio u Hola, reiniciamos su estado para reabrir el menú
     if (['hola', 'buenas', 'inicio', '0', 'menu', 'menú'].includes(texto)) {
         estadoUsuarios[userId] = 'MENU_PRINCIPAL';
         return (
@@ -88,36 +89,33 @@ function generarRespuesta(userId, textoOriginal) {
         );
     }
 
-    // SI EL USUARIO YA COMPLETÓ REGISTRO O SOPORTE, SILENCIO ABSOLUTO (Derivación a Asesor)
     if (estadoUsuarios[userId] === 'EN_ATENCION_HUMANA' || estadoUsuarios[userId] === 'REGISTRO_COMPLETADO') {
         return null;
     }
 
-    // OPCIÓN 1: Reglas
     if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
-            "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
+            "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un *flujo de capital constante, seguro y fluido*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
-            "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n" +
+            "⏰ *CRONOGRAMA OPERATIVO DOMINICAL*\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
             "  _(Se envían alertas preventivas a las 10:30 AM y 11:30 AM para confirmar registro y pago de plataforma)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 19:00 PM a 20:00 PM.\n" +
             "  _(Se envían alertas a las 18:30 PM con el QR del ganador del turno y a las 19:30 PM como recordatorio final de envío de comprobante)._\n\n" +
-            "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n" +
+            "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS)*\n" +
             "• Los participantes se registran en orden correlativo en salas de **10 miembros**.\n" +
             "• Del #1 al #10 conforman el **Equipo #1**. Al completarse, del #11 al #20 conforman el **Equipo #2**, y así sucesivamente.\n\n" +
-            "📌 *MECÁNICA DEL JUEGO:*\n" +
+            "📌 *MECÁNICA DEL JUEGO*\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n" +
             "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 (padrino/ahijado), actuando ambos como respaldo del cumplimiento semanal.\n\n" +
-            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n" +
+            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA*\n" +
             "• Único pago fijo de **Bs. 3** por participante (vía QR al momento del registro).\n\n" +
-            "💳 *PAGO E INGRESO AL SISTEMA:*\n" +
+            "💳 *PAGO E INGRESO AL SISTEMA*\n" +
             "• Tras enviar tu nombre completo, recibirás el QR por los Bs. 3 de uso de plataforma. Las cuotas semanales de tu categoría se pagan directamente al participante beneficiario en el horario de 19:00 a 20:00 PM los domingos.\n\n" +
             "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
         );
 
-    // OPCIÓN 2: Categorías
     } else if (texto === '2') {
         return (
             "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
@@ -131,11 +129,11 @@ function generarRespuesta(userId, textoOriginal) {
             "Escribe *Inicio* para volver al menú principal."
         );
 
-    // ELECCIÓN DE CATEGORÍA A, B o C (Pasa a estado ESPERANDO_NOMBRE_REGISTRO)
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
-        estadoUsuarios[userId] = 'ESPERANDO_NOMBRE_REGISTRO';
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
         let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
+        
+        estadoUsuarios[userId] = `ESPERANDO_NOMBRE_${cat}`;
 
         return (
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
@@ -147,18 +145,30 @@ function generarRespuesta(userId, textoOriginal) {
             "📲 *Próximo paso:* Al enviar tu nombre, te asignaremos correlativamente en el equipo correspondiente de 10 miembros y te enviaremos el QR de 3 Bs."
         );
 
-    // OPCIÓN 3: Soporte (Pasa a estado ESPERANDO_SOPORTE)
     } else if (texto === '3') {
         estadoUsuarios[userId] = 'ESPERANDO_SOPORTE';
         return (
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
-            "Gracias por contactarte. Mi nombre es: Pasanaku-Tech. (tú asistente Virtual)\n\n" +
+            "Gracias por contactarnos. Mi nombre es: *Pasanaku-Tech. tú asistente Virtual:)*\n\n" +
             "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre y el detalle de tu consulta...* Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
         );
 
-    // CAPTURA DE NOMBRE SEGÚN EL ESTADO ACTIVO
-    } else if (estadoUsuarios[userId] === 'ESPERANDO_NOMBRE_REGISTRO') {
+    } else if (estadoUsuarios[userId] && estadoUsuarios[userId].startsWith('ESPERANDO_NOMBRE_')) {
+        const categoria = estadoUsuarios[userId].replace('ESPERANDO_NOMBRE_', '');
         estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
+
+        // Notificación enviada automáticamente a tu WhatsApp Personal
+        if (MI_NUMERO_WHATSAPP) {
+            const alertaAdmin = 
+                "🚨 *NUEVO REGISTRO RECIBIDO*\n\n" +
+                `👤 *Nombre:* ${textoOriginal}\n` +
+                `📱 *Número:* https://wa.me/${userId}\n` +
+                `📊 *Categoría:* ${categoria}\n\n` +
+                "📌 _Acción requerida: Enviar QR de Bs. 3 para validar cupo._";
+            
+            await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
+        }
+
         return (
             "✅ *¡Registro Recibido!*\n\n" +
             `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
@@ -168,15 +178,26 @@ function generarRespuesta(userId, textoOriginal) {
 
     } else if (estadoUsuarios[userId] === 'ESPERANDO_SOPORTE') {
         estadoUsuarios[userId] = 'EN_ATENCION_HUMANA';
+
+        // Notificación enviada automáticamente a tu WhatsApp Personal
+        if (MI_NUMERO_WHATSAPP) {
+            const alertaSoporte = 
+                "👨‍💼 *NUEVA SOLICITUD DE SOPORTE*\n\n" +
+                `📱 *Número del usuario:* https://wa.me/${userId}\n` +
+                `💬 *Mensaje:* "${textoOriginal}"\n\n` +
+                "📌 _Acción requerida: Responder directamente a este número._";
+            
+            await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaSoporte);
+        }
+
         return (
             "✅ *¡Consulta de Soporte Recibida!*\n\n" +
             `Hemos registrado tu mensaje: *"${textoOriginal}"*.\n\n` +
-            "Un asesor administrativo revisará tu caso y te responderá de forma directa en este chat.\n\n" +
+            "Un asesor administrativo revisará tu caso y te responderá de forma directa a la brevedad posible.\n\n" +
             "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
         );
 
     } else {
-        // Cualquier otro texto fuera del flujo no responde nada
         return null;
     }
 }
