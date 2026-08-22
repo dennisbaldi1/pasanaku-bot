@@ -100,21 +100,21 @@ async function procesarMensaje(userId, textoOriginal) {
             "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un flujo de capital constante, seguro y fluido.\n\n" +
             "_Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia._\n\n" +
-            "👥 *GRUPOS Y CICLO DE JUEGO (10 SEMANAS):*\n\n" +
-            "• *_Equipos de 10:_* Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
-            "• *_Duración:_* Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
-            "• *_Inicio:_* Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
+            "👥 *GRUPOS Y CICLO DEL JUEGO (10 SEMANAS):*\n\n" +
+            "• *_Equipos de 10:_*  Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
+            "• *_Duración:_*  Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
+            "• *_Inicio:_*  Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
             "  _(Se envían alertas preventivas a las 10:30 AM y 11:30 AM para confirmar registro y pago de plataforma)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 19:00 PM a 20:00 PM.\n" +
             "  _(Se envían alertas a las 18:30 PM con el QR del ganador del turno y a las 19:30 PM como recordatorio final de envío de comprobante)._\n\n" +
             "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
-            "• Los participantes se registran en orden correlativo en salas de *10 miembros*.\n\n" +
+            "• Los participantes se registran en orden correlativo en equipos de *10 miembros*.\n\n" +
             "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
             "📌 *MECÁNICA DEL JUEGO:*\n\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n\n" +
-            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 (Compadre/Comadre), actuando ambos como respaldo del cumplimiento semanal.\n\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 _(Compadre/Comadre)_ actuando ambos como respaldo del cumplimiento semanal.\n\n" +
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
