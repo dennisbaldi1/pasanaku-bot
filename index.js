@@ -126,14 +126,14 @@ async function procesarMensaje(userId, textoOriginal) {
     } else if (texto === '2') {
         return (
             "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
-            "Selecciona la categoría en la que deseas participar (responde con la letra):\n\n" +
-            "A) *Categoría 100 BS*\n" +
+            "Selecciona la categoría en la que deseas participar *(responde con la letra)*:\n\n" +
+            "*A) Categoría 100 BS*\n" +
             "   • Cuota semanal: 100 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
-            "B) *Categoría 200 BS*\n" +
+            "*B) Categoría 200 BS*\n" +
             "   • Cuota semanal: 200 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
-            "C) *Categoría 300 BS*\n" +
+            "*C) Categoría 300 BS*\n" +
             "   • Cuota semanal: 300 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
-            "💡 _Escribe *Inicio* para volver al menú principal._"
+            "💡 _Elige tu Categoría A, B o C. Si deseas volver al menú principal, escribe *Inicio*._"
         );
 
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
