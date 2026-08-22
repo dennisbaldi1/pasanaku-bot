@@ -106,9 +106,9 @@ async function procesarMensaje(userId, textoOriginal) {
             "• *_Inicio:_*  Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
-            "  _(Se envían alertas preventivas a las 10:30 AM y 11:30 AM para confirmar registro y pago de plataforma)._\n\n" +
+            "  _(Se enviarán alertas preventivas a las 10:30 AM y 11:30 AM (como recordatorio final) para confirmar tú registro y pago de la plataforma)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 19:00 PM a 20:00 PM.\n" +
-            "  _(Se envían alertas a las 18:30 PM con el QR del ganador del turno y a las 19:30 PM como recordatorio final de envío de comprobante)._\n\n" +
+            "  _(Se enviarán alertas a las 18:30 PM  y a las 19:30 PM (como recordatorio final) con el código QR del ganador del turno para que le hagas el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
             "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
             "• Los participantes se registran en orden correlativo en equipos de *10 miembros*.\n\n" +
             "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
