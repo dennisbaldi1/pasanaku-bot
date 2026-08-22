@@ -118,7 +118,8 @@ async function procesarMensaje(userId, textoOriginal) {
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
-            "• Tras enviar tu nombre completo, recibirás el QR por los Bs. 3 de uso de plataforma. Las cuotas semanales de tu categoría se pagan directamente al participante beneficiario en el horario de 19:00 a 20:00 PM los domingos.\n\n" +
+            "• Tras enviar tu nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n" + 
+            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario en el horario de 19:00 a 20:00 PM. Cada Domingo.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
