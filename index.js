@@ -95,9 +95,14 @@ async function procesarMensaje(userId, textoOriginal) {
 
     if (texto === '1') {
         return (
+
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
-            "🚀 *INNOVACIÓN Y PROPÓSITO FINTECH*\n" +
-            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un *flujo de capital constante, seguro y fluido*. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
+            "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
+            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un flujo de capital constante, seguro y fluido. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.
+            👥 GRUPOS Y CICLO DE JUEGO (10 SEMANAS)
+            • Equipos de 10: Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.
+            • Duración: Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.
+            • Inicio: Un grupo inicia oficialmente su ciclo el domingo siguiente tras confirmarse sus 10 miembros.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL*\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
             "  _(Se envían alertas preventivas a las 10:30 AM y 11:30 AM para confirmar registro y pago de plataforma)._\n\n" +
@@ -113,7 +118,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA*\n" +
             "• Tras enviar tu nombre completo, recibirás el QR por los Bs. 3 de uso de plataforma. Las cuotas semanales de tu categoría se pagan directamente al participante beneficiario en el horario de 19:00 a 20:00 PM los domingos.\n\n" +
-            "Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar."
+            "_Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
     } else if (texto === '2') {
