@@ -133,7 +133,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "   • Cuota semanal: 200 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
             "*C) Categoría 300 BS*\n" +
             "   • Cuota semanal: 300 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
-            "💡 _Elige tu Categoría *A, B* o *C.*\n" + 
+            "💡 Elige tu Categoría *A, B* o *C.*\n" + 
             " _Si deseas volver al menú principal, escribe *Inicio*._"
         );
 
