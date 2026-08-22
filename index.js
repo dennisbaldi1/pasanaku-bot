@@ -79,8 +79,8 @@ async function procesarMensaje(userId, textoOriginal) {
     if (['hola', 'buenas', 'inicio', '0', 'menu', 'menú'].includes(texto)) {
         estadoUsuarios[userId] = 'MENU_PRINCIPAL';
         return (
-            "🤝 *Bienvenido a Pasanaku-Tech*\n" +
-            "_Plataforma de Ahorro Colectivo: Pasanaku Digital_\n\n" +
+            "🤝 *Bienvenido a Pasanaku-Tech:*\n\n" +
+            "_Una Plataforma de Ahorro Colectivo.- Pasanaku Digital_\n\n" +
             "Por favor, responde con el *número* de la opción que deseas consultar:\n\n" +
             "1️⃣ ¿Qué es Pasanaku-Tech y Reglas del Juego?\n" +
             "2️⃣ Inscribirse / Entrar al Juego (Categorías)\n" +
