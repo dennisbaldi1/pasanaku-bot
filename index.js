@@ -98,11 +98,11 @@ async function procesarMensaje(userId, textoOriginal) {
 
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
-            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un flujo de capital constante, seguro y fluido. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.
-            👥 GRUPOS Y CICLO DE JUEGO (10 SEMANAS)
-            • Equipos de 10: Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.
-            • Duración: Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.
-            • Inicio: Un grupo inicia oficialmente su ciclo el domingo siguiente tras confirmarse sus 10 miembros.\n\n" +
+            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un flujo de capital constante, seguro y fluido. Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia.\n\n" +
+            "👥 GRUPOS Y CICLO DE JUEGO (10 SEMANAS).\n\n" +
+            "• Equipos de 10: Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
+            "• Duración: Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
+            "• Inicio: Un grupo inicia oficialmente su ciclo el domingo siguiente tras confirmarse sus 10 miembros.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL*\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
             "  _(Se envían alertas preventivas a las 10:30 AM y 11:30 AM para confirmar registro y pago de plataforma)._\n\n" +
