@@ -110,15 +110,15 @@ async function procesarMensaje(userId, textoOriginal) {
             "• *Ventana de Liquidación y Pagos:* De 19:00 PM a 20:00 PM.\n" +
             "  _(Se envían alertas a las 18:30 PM con el QR del ganador del turno y a las 19:30 PM como recordatorio final de envío de comprobante)._\n\n" +
             "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
-            "• Los participantes se registran en orden correlativo en salas de *10 miembros*.\n" +
+            "• Los participantes se registran en orden correlativo en salas de *10 miembros*.\n\n" +
             "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
             "📌 *MECÁNICA DEL JUEGO:*\n\n" +
-            "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n" +
-            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 (padrino/ahijado), actuando ambos como respaldo del cumplimiento semanal.\n\n" +
+            "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 (Compadre/Comadre), actuando ambos como respaldo del cumplimiento semanal.\n\n" +
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
-            "• Tras enviar tu nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n" + 
+            "• Tras enviar tu nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n\n" + 
             "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario en el horario de 19:00 a 20:00 PM. Cada Domingo.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
