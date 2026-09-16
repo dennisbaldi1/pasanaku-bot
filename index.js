@@ -148,7 +148,7 @@ async function procesarMensaje(userId, textoOriginal) {
             `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
             `• Cuota del juego: *${cuota}* por semana (pagada directamente al participante de turno, el domingo hasta las 20:00 PM).\n` +
             `• Pago inicial de plataforma: *3 Bs* (único pago vía QR al momento de registrarse).\n\n` +
-            "Para completar tu inscripción, envía en un solo mensaje tu:\n\n" +
+            "Para completar tu inscripción, envía en un solo mensaje:\n\n" +
             "*NOMBRE completo*\n\n" +
             "📲 *Próximo paso:* Al enviar tu nombre, te asignaremos correlativamente al equipo correspondiente de 10 miembros y te enviaremos el QR de 3 Bs."
         );
