@@ -107,8 +107,8 @@ async function procesarMensaje(userId, textoOriginal) {
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
             "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
             "  _(Se enviarán alertas preventivas a las 10:30 AM y 11:30 AM (como recordatorio final) para confirmar tú registro y pago de la plataforma)._\n\n" +
-            "• *Ventana de Liquidación y Pagos:* De 19:00 PM a 20:00 PM.\n" +
-            "  _(Se enviarán alertas a las 18:30 PM  y a las 19:30 PM (como recordatorio final) con el código QR del ganador del turno para que le hagas el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
+            "• *Ventana de Liquidación y Pagos:* De 12:00 PM a 20:00 PM.\n" +
+            "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
             "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
             "• Los participantes se registran en orden correlativo en equipos de *10 miembros*.\n\n" +
             "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
@@ -119,7 +119,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
             "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n\n" + 
-            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 Pm. Hrs.\n\n" +
+            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 PM.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
