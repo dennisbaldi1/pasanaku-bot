@@ -98,15 +98,15 @@ async function procesarMensaje(userId, textoOriginal) {
 
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
-            "Pasanaku-Tech es un modelo moderno impulsado por tecnología de punta, creado para garantizar un flujo de capital constante, seguro y fluido.\n\n" +
+            "Pasanaku-Tech es un modelo moderno impulsado por tecnología a la vanguardia, creado para garantizar un flujo de capital constante, seguro y fluido.\n\n" +
             "_Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia._\n\n" +
             "👥 *GRUPOS Y CICLO DEL JUEGO (10 SEMANAS):*\n\n" +
             "• *_Equipos de 10:_*  Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
             "• *_Duración:_*  Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
             "• *_Inicio:_*  Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
-            "• *Ventana de Inscripciones:* De 11:00 AM a 12:00 PM.\n" +
-            "  _(Se enviarán alertas preventivas a las 10:30 AM y 11:30 AM (como recordatorio final) para confirmar tú registro y pago de la plataforma)._\n\n" +
+            "• *Ventana de Inscripciones:* De Lunes a Sabado\n" +
+            "  _(Se realizará la organización del grupo o los grupos a conformar las categorías a jugar, y el sorteo correspondiente para que se inicie el Pasanaku el día domingo)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 12:00 PM a 20:00 PM.\n" +
             "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
             "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
@@ -149,7 +149,7 @@ async function procesarMensaje(userId, textoOriginal) {
             `• Cuota del juego: *${cuota}* por semana (pagada directamente al participante de turno, el domingo hasta las 20:00 PM).\n` +
             `• Pago inicial de plataforma: *3 Bs* (único pago vía QR al momento de registrarse).\n\n` +
             "Para completar tu inscripción, envía en un solo mensaje:\n\n" +
-            "*NOMBRE completo*\n\n" +
+            "*NOMBRE y APELLIDO*\n\n" +
             "📲 *Próximo paso:* Al enviar tu nombre, te asignaremos correlativamente al equipo correspondiente de 10 miembros y te enviaremos el QR de 3 Bs."
         );
 
