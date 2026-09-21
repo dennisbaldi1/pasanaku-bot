@@ -99,7 +99,7 @@ async function procesarMensaje(userId, textoOriginal) {
                 "🎉 *¡TU GARANTE HA ACEPTADO!*\n\n" +
                 `Tu registro para la *Categoría ${registro.categoria}* y el de tu Garante (+${userId}) están pre-aprobados.\n\n` +
                 "📌 *¿Qué sigue ahora?*\n" +
-                "Te contactaremos pronto desde nuestro número administrativo para gestionar el pago único de Bs.3 por la administración del Pasanaku Digital. Estás a un paso de empezar ☺️​";
+                "Te contactaremos pronto desde nuestro número administrativo para gestionar el pago único de Bs.3 por la administración del Pasanaku Digital. Estás a un paso de empezar ☺️​​";
             await responderWhatsApp(solicitanteId, msgSolicitante);
 
             // 3. Alerta de Nuevo Grupo Registrado enviada directamente al Administrador
@@ -154,7 +154,7 @@ async function procesarMensaje(userId, textoOriginal) {
     if (texto === '1') {
         return (
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
-            "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
+            "📲 *INNOVACIÓN Y PROPÓSITO:*\n" +
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología a la vanguardia, creado para garantizar un flujo de capital constante, seguro y confiable.\n\n" +
             "_Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia._\n\n" +
             "👥 *GRUPOS Y CICLO DEL JUEGO (10 SEMANAS):*\n\n" +
@@ -166,10 +166,10 @@ async function procesarMensaje(userId, textoOriginal) {
             "  _(Se realizará la organización del grupo o los grupos a conformar las categorías a jugar, y el sorteo correspondiente para que *se inicie el Pasanaku el día Domingo*)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 10:00 AM a 10:00 PM.\n" +
             "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
-            "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
+            "📜​🖊️​ *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
             "• Los participantes se registrarán en pareja para conformar los equipos de *10 miembros*.\n\n" +
             "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
-            "📌 *MECÁNICA DEL JUEGO:*\n\n" +
+            "​💰​ *MECÁNICA DEL JUEGO:*\n\n" +
             "• *Cuota Íntegra (100%):* Recibes la cuota acumulada de forma directa de todos los participantes, cuando sea tu turno a recibir.\n\n" +
             "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 _(Compadre/Comadre)_ actuando ambos como respaldo del cumplimiento semanal.\n\n" +
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
@@ -182,7 +182,7 @@ async function procesarMensaje(userId, textoOriginal) {
 
     } else if (texto === '2') {
         return (
-            "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
+            "🎲 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
             "Selecciona la categoría en la que deseas participar *(responde con la letra)*:\n\n" +
             "*A) Categoría Bs.100*\n" +
             "   • Cuota semanal: Bs.100 | Mantenimiento de plataforma: Bs.3 (pago único)\n\n" +
