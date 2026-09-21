@@ -216,7 +216,7 @@ async function procesarMensaje(userId, textoOriginal) {
         return (
             `Gracias, *${textoOriginal}*.\n\n` +
             "📲 *PASO FINAL - GARANTE MUTUO:*\n" +
-            "Ingresa el *Número de WhatsApp de tu Garante* (ejemplo: 59170000000 o 70000000):\n\n" +
+            "Ingresa el *Número de WhatsApp de tu _(Compadre/Comadre)_* (ejemplo: 59170000000 o 70000000):\n\n" +
             "💡 _Le enviaremos una notificación automática a este número para validar la solicitud._"
         );
 
