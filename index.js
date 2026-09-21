@@ -9,7 +9,7 @@ const estadoUsuarios = {};
 const registrosTemporales = {};
 
 // Número telefónico personal del administrador para recibir las alertas
-const MI_NUMERO_WHATSAPP = process.env.ADMIN_PHONE_NUMBER || "59175767760";
+const MI_NUMERO_WHATSAPP = "59175767760";
 
 // 1. Ruta raíz para mantener el servicio activo
 app.get('/', (req, res) => {
@@ -86,40 +86,30 @@ async function procesarMensaje(userId, textoOriginal) {
         if (texto === 'acepto' || texto.includes('acep')) {
             const registro = registrosTemporales[solicitanteId];
 
-           // 1. Notificación al GARANTE (Usuario B)
-const msgGarante = `🎉 *¡SOLICITUD CONFIRMADA!*
+            // 1. Notificación al GARANTE (Usuario 2)
+            const msgGarante = 
+                "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
+                `Has aceptado ser el Garante Mutuo de *${registro.nombre}* para la *Categoría ${registro.categoria}*.\n\n` +
+                "📌 *¿Qué sigue ahora?*\n" +
+                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu Registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
+            await responderWhatsApp(userId, msgGarante);
 
-Has aceptado ser el Garante Mutuo de *\({registro.nombre}* para la *Categoría\){registro.categoria}*.
-
-📌 *¿Qué sigue ahora?*
-Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu Registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝`;
-await responderWhatsApp(userId, msgGarante);
-
-// 2. Notificación al SOLICITANTE (Usuario A)
-const msgSolicitante = `🎉 *¡TU GARANTE HA ACEPTADO!*
-
-Tu registro para la *Categoría \({registro.categoria}* y el de tu Garante (+\){userId}) están pre-aprobados.
-
-📌 *¿Qué sigue ahora?*
-Te contactaremos pronto desde nuestro número administrativo para gestionar el pago único de Bs.3 por la administración del Pasanaku Digital. ¡Estás a un paso de empezar!`;
-await responderWhatsApp(solicitanteId, msgSolicitante);
-
-            // 2. Notificación al SOLICITANTE (Usuario A)
+            // 2. Notificación al SOLICITANTE (Usuario 1)
             const msgSolicitante = 
                 "🎉 *¡TU GARANTE HA ACEPTADO!*\n\n" +
-                `Tu registro para la *Categoría \({registro.categoria}* y el de tu Garante (+\){userId}) están pre-aprobados.\n\n` +
+                `Tu registro para la *Categoría ${registro.categoria}* y el de tu Garante (+${userId}) están pre-aprobados.\n\n` +
                 "📌 *¿Qué sigue ahora?*\n" +
                 "Te contactaremos pronto desde nuestro número administrativo para gestionar el pago único de Bs.3 por la administración del Pasanaku Digital. ¡Estás a un paso de empezar!";
             await responderWhatsApp(solicitanteId, msgSolicitante);
 
-            // 3. Alerta enviada directamente al Administrador
+            // 3. Alerta de Nuevo Grupo Registrado enviada directamente al Administrador
             const alertaAdmin = 
                 "🚨 *NUEVO REGISTRO EN PAREJA COMPLETADO*\n\n" +
                 `👤 *Solicitante (1):* ${registro.nombre}\n` +
                 `📱 *Teléfono A:* https://wa.me/${solicitanteId}\n` +
                 `📊 *Categoría:* ${registro.categoria}\n\n` +
                 `🤝 *Garante (2):* https://wa.me/${userId}\n\n` +
-                "📌 _Acción requerida: Contactar a ambos números desde el WhatsApp administrativo para solicitar el pago de Bs.3 por registro._";
+                "📌 _Acción requerida: Contactar a ambos números desde el WhatsApp administrativo para solicitar el pago de Bs.3 por cupo._";
             await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
 
             // Actualizar estados
@@ -168,11 +158,11 @@ await responderWhatsApp(solicitanteId, msgSolicitante);
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología a la vanguardia, creado para garantizar un flujo de capital constante, seguro y confiable.\n\n" +
             "_Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia._\n\n" +
             "👥 *GRUPOS Y CICLO DEL JUEGO (10 SEMANAS):*\n\n" +
-            "• *_Equipos de 10:_* Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
-            "• *_Duración:_* Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su cuota en turnos semanales.\n\n" +
-            "• *_Inicio:_* Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
+            "• *_Equipos de 10:_*  Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
+            "• *_Duración:_*  Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
+            "• *_Inicio:_*  Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
-            "• *Ventana de Inscripciones:* De Lunes a Sábado\n" +
+            "• *Ventana de Inscripciones:* De Lunes a Sabado\n" +
             "  _(Se realizará la organización del grupo o los grupos a conformar las categorías a jugar, y el sorteo correspondiente para que *se inicie el Pasanaku el día Domingo*)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 10:00 AM a 10:00 PM.\n" +
             "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
@@ -185,17 +175,8 @@ await responderWhatsApp(solicitanteId, msgSolicitante);
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
-            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs.3 por el uso de la plataforma.\n\n" +
-            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada Domingo.\n\n" +
-            "❓ *PREGUNTAS FRECUENTES (FAQ)*\n\n" +
-            "🔹 *¿Cómo se realiza el pago de la cuota semanal?*\n" +
-            "Cada domingo, entre las 10:00 AM y las 10:00 PM, la administración notifica el código QR del participante beneficiario del turno. Transfieres tu cuota directamente a su cuenta.\n\n" +
-            "🔹 *¿Qué función cumple la cuota de Bs. 3?*\n" +
-            "Es un pago único por ciclo correspondiente a los honorarios por el uso de la infraestructura tecnológica, la automatización de notificaciones y la administración del bot(IA) en WhatsApp.\n\n" +
-            "🔹 *¿Qué pasa si mi Garante no responde el mensaje?*\n" +
-            "El registro permanece en estado pendiente. La pre-aprobación y la asignación del registro, solo se activan cuando el Garante responde la palabra *ACEPTO* en el chat del WhatsApp.\n\n" +
-            "🔹 *¿Puedo cambiar de categoría una vez iniciado el ciclo?*\n" +
-            "*No*. Una vez iniciado el ciclo de 10 semanas, la categoría elegida (Bs.100, Bs.200 o Bs.300) y la respectiva cuota son fijas, manteniéndose hasta completar la liquidación de los 10 turnos.\n\n" +
+            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs.3 por el uso de la plataforma.\n\n" + 
+            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 PM.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
@@ -235,7 +216,7 @@ await responderWhatsApp(solicitanteId, msgSolicitante);
         return (
             `Gracias, *${textoOriginal}*.\n\n` +
             "📲 *PASO FINAL - GARANTE MUTUO:*\n" +
-            "Ingresa el *Número de WhatsApp de tu Garante (Compadre/Comadre)* (ejemplo: 59170000000 o 70000000):\n\n" +
+            "Ingresa el *Número de WhatsApp de tu Garante* (ejemplo: 59170000000 o 70000000):\n\n" +
             "💡 _Le enviaremos una notificación automática a este número para validar la solicitud._"
         );
 
@@ -253,25 +234,20 @@ await responderWhatsApp(solicitanteId, msgSolicitante);
         registrosTemporales[userId].garante = numGarante;
         registrosTemporales[userId].paso = 'CONFIRMACION_GARANTE';
 
-        // Enviar mensaje automático al Garante (Usuario B)
-        const nombreSolicitante = registrosTemporales[userId].nombre;
-        const catSolicitante = registrosTemporales[userId].categoria;
-
-        const msgParaGarante = `🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*
-
-Hola compadre/comadre, *\({nombreSolicitante}* (+\){userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${catSolicitante}*.
-
-Para confirmar y pre-aprobar el cupo de ambos en el grupo, responde únicamente escribiendo:
-👉 *ACEPTO*
-
-Si no lo conoces o deseas declinar, responde:
-👉 *RECHAZO*`;
+        // Enviar mensaje automático al Garante (Usuario 2)
+        const msgParaGarante = 
+            "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
+            `Hola compadre/comadre, *${registrosTemporales[userId].nombre}* (+${userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
+            "Para confirmar y pre-aprobar el cupo de ambos en el grupo, responde únicamente escribiendo:\n" +
+            "👉 *ACEPTO*\n\n" +
+            "Si no lo conoces o deseas declinar, responde:\n" +
+            "👉 *RECHAZO*";
         
         await responderWhatsApp(numGarante, msgParaGarante);
 
         return (
             `⏳ *Solicitud enviada a tu Garante (+${numGarante})*.\n\n` +
-            "Le hemos enviado una notificación por WhatsApp. En cuanto responda *ACEPTO*, el sistema pre-aprobará el pre-registro y nos pondremos en contacto contigo para completar el proceso.\n\n" +
+            "Le hemos enviado una notificación por WhatsApp. En cuanto responda *ACEPTO*, el sistema pre-aprobará el grupo y nos pondremos en contacto contigo para completar el proceso.\n\n" +
             "💡 _Escribe *Inicio* si deseas volver al menú._"
         );
 
@@ -312,8 +288,6 @@ async function responderWhatsApp(to, text) {
     const phoneNumberId = process.env.PHONE_NUMBER_ID;
     const whatsappToken = process.env.WHATSAPP_TOKEN;
 
-    const cleanTo = String(to).replace(/[^0-9]/g, '');
-
     try {
         const response = await axios({
             method: 'POST',
@@ -324,12 +298,12 @@ async function responderWhatsApp(to, text) {
             },
             data: {
                 messaging_product: 'whatsapp',
-                to: cleanTo,
+                to: to,
                 type: 'text',
                 text: { body: text }
             }
         });
-        console.log(`✅ Mensaje enviado exitosamente a: ${cleanTo}`);
+        console.log(`✅ Mensaje enviado exitosamente a: ${to}`);
     } catch (error) {
         console.error('❌ Error enviando mensaje:', error.response ? JSON.stringify(error.response.data) : error.message);
     }
