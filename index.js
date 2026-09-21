@@ -164,10 +164,10 @@ async function procesarMensaje(userId, textoOriginal) {
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
             "• *Ventana de Inscripciones:* De Lunes a Sabado\n" +
             "  _(Se realizará la organización del grupo o los grupos a conformar las categorías a jugar, y el sorteo correspondiente para que *se inicie el Pasanaku el día Domingo*)._\n\n" +
-            "• *Ventana de Liquidación y Pagos:* De 12:00 PM a 20:00 PM.\n" +
+            "• *Ventana de Liquidación y Pagos:* De 10:00 AM a 10:00 PM.\n" +
             "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
             "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
-            "• Los participantes se registran en orden correlativo en equipos de *10 miembros*.\n\n" +
+            "• Los participantes se registrarán en pareja para conformar los equipos de *10 miembros*.\n\n" +
             "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
             "📌 *MECÁNICA DEL JUEGO:*\n\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n\n" +
@@ -175,7 +175,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
-            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n\n" + 
+            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs.3 por el uso de la plataforma.\n\n" + 
             "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 PM.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
@@ -184,19 +184,19 @@ async function procesarMensaje(userId, textoOriginal) {
         return (
             "🎮 *CATEGORÍAS DE JUEGO EN PASANAKU-TECH*\n\n" +
             "Selecciona la categoría en la que deseas participar *(responde con la letra)*:\n\n" +
-            "*A) Categoría 100 BS*\n" +
-            "   • Cuota semanal: 100 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
-            "*B) Categoría 200 BS*\n" +
-            "   • Cuota semanal: 200 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
-            "*C) Categoría 300 BS*\n" +
-            "   • Cuota semanal: 300 Bs | Mantenimiento de plataforma: 3 Bs (pago único)\n\n" +
+            "*A) Categoría Bs.100*\n" +
+            "   • Cuota semanal: Bs.100 | Mantenimiento de plataforma: Bs.3 (pago único)\n\n" +
+            "*B) Categoría Bs.200*\n" +
+            "   • Cuota semanal: Bs.200 | Mantenimiento de plataforma: Bs.3 (pago único)\n\n" +
+            "*C) Categoría Bs.300*\n" +
+            "   • Cuota semanal: Bs.300 | Mantenimiento de plataforma: Bs.3 (pago único)\n\n" +
             "💡 Elige tu Categoría *A, B* o *C.*\n" + 
             " _Si deseas volver al menú principal, escribe *Inicio*._"
         );
 
     } else if (texto === 'a' || texto === 'b' || texto === 'c') {
-        let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
-        let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
+        let cat = texto === 'a' ? 'Bs.100' : texto === 'b' ? 'Bs.200' : 'Bs.300';
+        let cuota = texto === 'a' ? 'Bs.100' : texto === 'b' ? 'Bs.200' : 'Bs.300';
         
         registrosTemporales[userId] = { categoria: cat, cuota: cuota, paso: 'PEDIR_NOMBRE' };
         estadoUsuarios[userId] = 'REGISTRO_EN_PROCESO';
@@ -205,7 +205,7 @@ async function procesarMensaje(userId, textoOriginal) {
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
             `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
             `• Cuota del juego: *${cuota}* por semana.\n` +
-            `• Pago inicial de plataforma: *3 Bs* (único pago vía QR).\n\n` +
+            `• Pago inicial de plataforma: *Bs.3* (único pago vía QR).\n\n` +
             "Para continuar, responde con tu *NOMBRE y APELLIDO:*"
         );
 
