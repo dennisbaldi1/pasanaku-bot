@@ -244,9 +244,12 @@ async function procesarMensaje(userId, textoOriginal) {
         registrosTemporales[userId].paso = 'CONFIRMACION_GARANTE';
 
         // Enviar mensaje automático al Garante (Usuario B)
+        const nombreSolicitante = registrosTemporales[userId].nombre;
+        const catSolicitante = registrosTemporales[userId].categoria;
+
         const msgParaGarante = 
             "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
-            `Hola compadre/comadre, *\({registrosTemporales[userId].nombre}* (+\){userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
+            `Hola compadre/comadre, *\({nombreSolicitante}* (+\){userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${catSolicitante}*.\n\n` +
             "Para confirmar y pre-aprobar el cupo de ambos en el grupo, responde únicamente escribiendo:\n" +
             "👉 *ACEPTO*\n\n" +
             "Si no lo conoces o deseas declinar, responde:\n" +
