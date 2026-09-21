@@ -238,7 +238,7 @@ async function procesarMensaje(userId, textoOriginal) {
         const msgParaGarante = 
             "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
             `Hola _(Compadre/Comadre)_, *${registrosTemporales[userId].nombre}* (+${userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
-            "Para confirmar y pre-aprobar el pre-registro de ambos en el grupo, responde únicamente escribiendo:\n" +
+            "📲​ Para confirmar y aprobar el pre-registro de ambos en la categoría, responde únicamente escribiendo:\n" +
             "👉 *ACEPTO*\n\n" +
             "Si no lo conoces o deseas declinar, responde:\n" +
             "👉 *RECHAZO*";
