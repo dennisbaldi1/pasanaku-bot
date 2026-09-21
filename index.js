@@ -91,7 +91,7 @@ async function procesarMensaje(userId, textoOriginal) {
                 "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
                 `Has aceptado ser el Garante Mutuo de *${registro.nombre}* para la *Categoría ${registro.categoria}*.\n\n` +
                 "📌 *¿Qué sigue ahora?*\n" +
-                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu pre-registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
+                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu Registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
             await responderWhatsApp(userId, msgGarante);
 
             // 2. Notificación al SOLICITANTE (Usuario 1)
