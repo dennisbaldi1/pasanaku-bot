@@ -86,7 +86,7 @@ async function procesarMensaje(userId, textoOriginal) {
         if (texto === 'acepto' || texto.includes('acep')) {
             const registro = registrosTemporales[solicitanteId];
 
-            // 1. Notificación al GARANTE (Usuario B)
+            // 1. Notificación al GARANTE (Usuario 2)
             const msgGarante = 
                 "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
                 `Has aceptado ser el Garante Mutuo de *${registro.nombre}* para la *Categoría ${registro.categoria}*.\n\n` +
@@ -94,7 +94,7 @@ async function procesarMensaje(userId, textoOriginal) {
                 "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu cupo y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
             await responderWhatsApp(userId, msgGarante);
 
-            // 2. Notificación al SOLICITANTE (Usuario A)
+            // 2. Notificación al SOLICITANTE (Usuario 1)
             const msgSolicitante = 
                 "🎉 *¡TU GARANTE HA ACEPTADO!*\n\n" +
                 `Tu registro para la *Categoría ${registro.categoria}* y el de tu Garante (+${userId}) están pre-aprobados.\n\n` +
@@ -105,10 +105,10 @@ async function procesarMensaje(userId, textoOriginal) {
             // 3. Alerta de Nuevo Grupo Registrado enviada directamente al Administrador
             const alertaAdmin = 
                 "🚨 *NUEVO REGISTRO EN PAREJA COMPLETADO*\n\n" +
-                `👤 *Solicitante (A):* ${registro.nombre}\n` +
+                `👤 *Solicitante (1):* ${registro.nombre}\n` +
                 `📱 *Teléfono A:* https://wa.me/${solicitanteId}\n` +
                 `📊 *Categoría:* ${registro.categoria}\n\n` +
-                `🤝 *Garante (B):* https://wa.me/${userId}\n\n` +
+                `🤝 *Garante (2):* https://wa.me/${userId}\n\n` +
                 "📌 _Acción requerida: Contactar a ambos números desde el WhatsApp administrativo para solicitar el pago de Bs. 3 por cupo._";
             await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
 
@@ -234,7 +234,7 @@ async function procesarMensaje(userId, textoOriginal) {
         registrosTemporales[userId].garante = numGarante;
         registrosTemporales[userId].paso = 'CONFIRMACION_GARANTE';
 
-        // Enviar mensaje automático al Garante (Usuario B)
+        // Enviar mensaje automático al Garante (Usuario 2)
         const msgParaGarante = 
             "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
             `Hola, *${registrosTemporales[userId].nombre}* (+${userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
