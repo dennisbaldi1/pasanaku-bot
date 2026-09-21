@@ -176,16 +176,16 @@ async function procesarMensaje(userId, textoOriginal) {
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
             "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs.3 por el uso de la plataforma.\n\n" + 
-            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 PM.\n\n" +
+            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada Domingo.\n\n" +
             "❓ *PREGUNTAS FRECUENTES (FAQ)*\n\n" +
             "🔹 *¿Cómo se realiza el pago de la cuota semanal?*\n" +
             "Cada domingo, entre las 10:00 AM y las 10:00 PM, la administración notifica el código QR del participante beneficiario del turno. Transfieres tu cuota directamente a su cuenta.\n\n" +
             "🔹 *¿Qué función cumple la cuota de Bs. 3?*\n" +
-            "Es un pago único por ciclo correspondiente a los honorarios por el uso de la infraestructura tecnológica, la automatización de notificaciones y la administración del bot en WhatsApp.\n\n" +
+            "Es un pago único por ciclo correspondiente a los honorarios por el uso de la infraestructura tecnológica, la automatización de notificaciones y la administración del bot(IA) en WhatsApp.\n\n" +
             "🔹 *¿Qué pasa si mi Garante no responde el mensaje?*\n" +
-            "El registro permanece en estado pendiente. La pre-aprobación y la asignación del cupo solo se activan cuando el Garante responde la palabra *ACEPTO* en el chat del bot.\n\n" +
+            "El registro permanece en estado pendiente. La pre-aprobación y la asignación del cupo solo se activan cuando el Garante responde la palabra *ACEPTO* en el chat del WhatsApp.\n\n" +
             "🔹 *¿Puedo cambiar de categoría una vez iniciado el ciclo?*\n" +
-            "No. Una vez iniciado el ciclo de 10 semanas, la categoría elegida (Bs.100, Bs.200 o Bs.300) y la cuota fija se mantienen hasta completar la liquidación de los 10 turnos.\n\n" +
+            "*No*. Una vez iniciado el ciclo de 10 semanas, la categoría elegida (Bs.100, Bs.200 o Bs.300) y la respectiva cuota son fijas, manteniéndose hasta completar la liquidación de los 10 turnos.
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
