@@ -89,7 +89,7 @@ async function procesarMensaje(userId, textoOriginal) {
             // 1. Notificación al GARANTE (Usuario 2)
             const msgGarante = 
                 "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
-                `Has aceptado ser el Garante Mutuo de *${registro.nombre}* para la *Categoría ${registro.categoria}*.\n\n` +
+                `Has aceptado ser el Garante Mutuo de *\({registro.nombre}* para la *Categoría\){registro.categoria}*.\n\n` +
                 "📌 *¿Qué sigue ahora?*\n" +
                 "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu Registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
             await responderWhatsApp(userId, msgGarante);
@@ -175,7 +175,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
             "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
-            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs.3 por el uso de la plataforma.\n\n" + 
+            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs.3 por el uso de la plataforma.\n\n" +
             "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada Domingo.\n\n" +
             "❓ *PREGUNTAS FRECUENTES (FAQ)*\n\n" +
             "🔹 *¿Cómo se realiza el pago de la cuota semanal?*\n" +
@@ -185,7 +185,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "🔹 *¿Qué pasa si mi Garante no responde el mensaje?*\n" +
             "El registro permanece en estado pendiente. La pre-aprobación y la asignación del registro, solo se activan cuando el Garante responde la palabra *ACEPTO* en el chat del WhatsApp.\n\n" +
             "🔹 *¿Puedo cambiar de categoría una vez iniciado el ciclo?*\n" +
-            "*No*. Una vez iniciado el ciclo de 10 semanas, la categoría elegida (Bs.100, Bs.200 o Bs.300) y la respectiva cuota son fijas, manteniéndose hasta completar la liquidación de los 10 turnos.
+            "*No*. Una vez iniciado el ciclo de 10 semanas, la categoría elegida (Bs.100, Bs.200 o Bs.300) y la respectiva cuota son fijas, manteniéndose hasta completar la liquidación de los 10 turnos.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
@@ -246,7 +246,7 @@ async function procesarMensaje(userId, textoOriginal) {
         // Enviar mensaje automático al Garante (Usuario 2)
         const msgParaGarante = 
             "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
-            `Hola compadre/comadre, *${registrosTemporales[userId].nombre}* (+${userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
+            `Hola compadre/comadre, *\({registrosTemporales[userId].nombre}* (+\){userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
             "Para confirmar y pre-aprobar el pre-registro de ambos en el grupo, responde únicamente escribiendo:\n" +
             "👉 *ACEPTO*\n\n" +
             "Si no lo conoces o deseas declinar, responde:\n" +
