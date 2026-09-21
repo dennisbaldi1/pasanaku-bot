@@ -91,7 +91,7 @@ async function procesarMensaje(userId, textoOriginal) {
                 "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
                 `Has aceptado ser el Garante Mutuo de *${registro.nombre}* para la *Categoría ${registro.categoria}*.\n\n` +
                 "📌 *¿Qué sigue ahora?*\n" +
-                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu cupo y el pago único de Bs. 3 por el uso de la plataforma. ¡Gracias por participar!";
+                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu cupo y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
             await responderWhatsApp(userId, msgGarante);
 
             // 2. Notificación al SOLICITANTE (Usuario A)
@@ -126,7 +126,7 @@ async function procesarMensaje(userId, textoOriginal) {
             delete registrosTemporales[solicitanteId];
             delete estadoUsuarios[solicitanteId];
             
-            return "Entendido. Has rechazado la solicitud de garantía correctamente.";
+            return "Entendido. Has rechazado la solicitud de garantía para ingresar al registro del Pasanaku Digital.";
         } else {
             return "Por favor, responde únicamente escribiendo *ACEPTO* o *RECHAZO* para procesar la solicitud de tu garante.";
         }
@@ -162,15 +162,21 @@ async function procesarMensaje(userId, textoOriginal) {
             "• *_Duración:_*  Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
             "• *_Inicio:_*  Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
-            "• *Ventana de Inscripciones:* De Lunes a Sábado\n" +
+            "• *Ventana de Inscripciones:* De Lunes a Sabado\n" +
             "  _(Se realizará la organización del grupo o los grupos a conformar las categorías a jugar, y el sorteo correspondiente para que *se inicie el Pasanaku el día Domingo*)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 12:00 PM a 20:00 PM.\n" +
             "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
-            "📌 *MECÁNICA Y GARANTE MUTUO:*\n\n" +
+            "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
+            "• Los participantes se registran en orden correlativo en equipos de *10 miembros*.\n\n" +
+            "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
+            "📌 *MECÁNICA DEL JUEGO:*\n\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n\n" +
-            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 acting ambos como respaldo del cumplimiento semanal.\n\n" +
-            "💡 *HONORARIOS ADMINISTRATIVOS:*\n\n" +
-            "• Pago único fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 _(Compadre/Comadre)_ actuando ambos como respaldo del cumplimiento semanal.\n\n" +
+            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
+            "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
+            "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
+            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n\n" + 
+            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 PM.\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
@@ -200,7 +206,7 @@ async function procesarMensaje(userId, textoOriginal) {
             `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
             `• Cuota del juego: *${cuota}* por semana.\n` +
             `• Pago inicial de plataforma: *3 Bs* (único pago vía QR).\n\n` +
-            "Para continuar, responde con tu *NOMBRE y APELLIDO* completo:"
+            "Para continuar, responde con tu *NOMBRE y APELLIDO:*"
         );
 
     } else if (registrosTemporales[userId] && registrosTemporales[userId].paso === 'PEDIR_NOMBRE') {
