@@ -86,13 +86,23 @@ async function procesarMensaje(userId, textoOriginal) {
         if (texto === 'acepto' || texto.includes('acep')) {
             const registro = registrosTemporales[solicitanteId];
 
-            // 1. Notificación al GARANTE (Usuario B)
-            const msgGarante = 
-                "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
-                `Has aceptado ser el Garante Mutuo de *\({registro.nombre}* para la *Categoría\){registro.categoria}*.\n\n` +
-                "📌 *¿Qué sigue ahora?*\n" +
-                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu Registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝";
-            await responderWhatsApp(userId, msgGarante);
+           // 1. Notificación al GARANTE (Usuario B)
+const msgGarante = `🎉 *¡SOLICITUD CONFIRMADA!*
+
+Has aceptado ser el Garante Mutuo de *\({registro.nombre}* para la *Categoría\){registro.categoria}*.
+
+📌 *¿Qué sigue ahora?*
+Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu Registro y el pago único de Bs.3 por el uso de la plataforma. Gracias por participar 🤝`;
+await responderWhatsApp(userId, msgGarante);
+
+// 2. Notificación al SOLICITANTE (Usuario A)
+const msgSolicitante = `🎉 *¡TU GARANTE HA ACEPTADO!*
+
+Tu registro para la *Categoría \({registro.categoria}* y el de tu Garante (+\){userId}) están pre-aprobados.
+
+📌 *¿Qué sigue ahora?*
+Te contactaremos pronto desde nuestro número administrativo para gestionar el pago único de Bs.3 por la administración del Pasanaku Digital. ¡Estás a un paso de empezar!`;
+await responderWhatsApp(solicitanteId, msgSolicitante);
 
             // 2. Notificación al SOLICITANTE (Usuario A)
             const msgSolicitante = 
@@ -247,13 +257,15 @@ async function procesarMensaje(userId, textoOriginal) {
         const nombreSolicitante = registrosTemporales[userId].nombre;
         const catSolicitante = registrosTemporales[userId].categoria;
 
-        const msgParaGarante = 
-            "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
-            `Hola compadre/comadre, *\({nombreSolicitante}* (+\){userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${catSolicitante}*.\n\n` +
-            "Para confirmar y pre-aprobar el cupo de ambos en el grupo, responde únicamente escribiendo:\n" +
-            "👉 *ACEPTO*\n\n" +
-            "Si no lo conoces o deseas declinar, responde:\n" +
-            "👉 *RECHAZO*";
+        const msgParaGarante = `🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*
+
+Hola compadre/comadre, *\({nombreSolicitante}* (+\){userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${catSolicitante}*.
+
+Para confirmar y pre-aprobar el cupo de ambos en el grupo, responde únicamente escribiendo:
+👉 *ACEPTO*
+
+Si no lo conoces o deseas declinar, responde:
+👉 *RECHAZO*`;
         
         await responderWhatsApp(numGarante, msgParaGarante);
 
