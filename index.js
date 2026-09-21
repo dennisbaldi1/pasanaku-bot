@@ -4,8 +4,9 @@ const app = express();
 
 app.use(express.json());
 
-// Memoria temporal en el servidor para rastrear el flujo de cada usuario
+// Memoria temporal en el servidor para rastrear el flujo y registro de usuarios
 const estadoUsuarios = {};
+const registrosTemporales = {};
 
 // Número telefónico personal del administrador para recibir las alertas
 const MI_NUMERO_WHATSAPP = "59175767760";
@@ -58,7 +59,7 @@ app.post('/webhook', async (req, res) => {
     }
 });
 
-// 4. Flujo de Respuestas y Notificación al Administrador
+// 4. Flujo de Respuestas y Gestión de Registros / Garantes
 async function procesarMensaje(userId, textoOriginal) {
     const texto = textoOriginal.toLowerCase();
 
@@ -76,8 +77,65 @@ async function procesarMensaje(userId, textoOriginal) {
         return null;
     }
 
+    // A. EVALUAR SI EL USUARIO ES UN GARANTE RESPONDIENDO UNA SOLICITUD
+    const solicitanteId = Object.keys(registrosTemporales).find(
+        key => registrosTemporales[key].garante === userId && registrosTemporales[key].paso === 'CONFIRMACION_GARANTE'
+    );
+
+    if (solicitanteId) {
+        if (texto === 'acepto' || texto.includes('acep')) {
+            const registro = registrosTemporales[solicitanteId];
+
+            // 1. Notificación al GARANTE (Usuario B)
+            const msgGarante = 
+                "🎉 *¡SOLICITUD CONFIRMADA!*\n\n" +
+                `Has aceptado ser el Garante Mutuo de *${registro.nombre}* para la *Categoría ${registro.categoria}*.\n\n` +
+                "📌 *¿Qué sigue ahora?*\n" +
+                "Te contactaremos pronto desde nuestro número administrativo para gestionar la habilitación de tu cupo y el pago único de Bs. 3 por el uso de la plataforma. ¡Gracias por participar!";
+            await responderWhatsApp(userId, msgGarante);
+
+            // 2. Notificación al SOLICITANTE (Usuario A)
+            const msgSolicitante = 
+                "🎉 *¡TU GARANTE HA ACEPTADO!*\n\n" +
+                `Tu registro para la *Categoría ${registro.categoria}* y el de tu Garante (+${userId}) están pre-aprobados.\n\n` +
+                "📌 *¿Qué sigue ahora?*\n" +
+                "Te contactaremos pronto desde nuestro número administrativo para gestionar el pago único de Bs. 3 por tu cupo. ¡Estás a un paso de empezar!";
+            await responderWhatsApp(solicitanteId, msgSolicitante);
+
+            // 3. Alerta de Nuevo Grupo Registrado enviada directamente al Administrador
+            const alertaAdmin = 
+                "🚨 *NUEVO REGISTRO EN PAREJA COMPLETADO*\n\n" +
+                `👤 *Solicitante (A):* ${registro.nombre}\n` +
+                `📱 *Teléfono A:* https://wa.me/${solicitanteId}\n` +
+                `📊 *Categoría:* ${registro.categoria}\n\n` +
+                `🤝 *Garante (B):* https://wa.me/${userId}\n\n` +
+                "📌 _Acción requerida: Contactar a ambos números desde el WhatsApp administrativo para solicitar el pago de Bs. 3 por cupo._";
+            await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
+
+            // Actualizar estados
+            estadoUsuarios[solicitanteId] = 'REGISTRO_COMPLETADO';
+            estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
+            delete registrosTemporales[solicitanteId];
+
+            return null;
+
+        } else if (texto === 'rechazo' || texto.includes('rechaz')) {
+            // Notificar al Solicitante sobre el rechazo
+            await responderWhatsApp(solicitanteId, "❌ Tu garante ha rechazado la solicitud. El registro se ha cancelado. Escribe *2* si deseas iniciar un nuevo registro con otro garante.");
+            
+            delete registrosTemporales[solicitanteId];
+            delete estadoUsuarios[solicitanteId];
+            
+            return "Entendido. Has rechazado la solicitud de garantía correctamente.";
+        } else {
+            return "Por favor, responde únicamente escribiendo *ACEPTO* o *RECHAZO* para procesar la solicitud de tu garante.";
+        }
+    }
+
+    // B. NAVEGACIÓN GENERAL Y MENÚS
     if (['hola', 'buenas', 'inicio', '0', 'menu', 'menú'].includes(texto)) {
         estadoUsuarios[userId] = 'MENU_PRINCIPAL';
+        delete registrosTemporales[userId];
         return (
             "🤝 *Bienvenido a Pasanaku-Tech:*\n\n" +
             "_Una Plataforma de Ahorro Colectivo.- Pasanaku Digital_\n\n" +
@@ -95,7 +153,6 @@ async function procesarMensaje(userId, textoOriginal) {
 
     if (texto === '1') {
         return (
-
             "📋 *REGLAS Y FUNCIONAMIENTO DE PASANAKU-TECH*\n\n" +
             "🚀 *INNOVACIÓN Y PROPÓSITO:*\n" +
             "Pasanaku-Tech es un modelo moderno impulsado por tecnología a la vanguardia, creado para garantizar un flujo de capital constante, seguro y confiable.\n\n" +
@@ -105,21 +162,15 @@ async function procesarMensaje(userId, textoOriginal) {
             "• *_Duración:_*  Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
             "• *_Inicio:_*  Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
-            "• *Ventana de Inscripciones:* De Lunes a Sabado\n" +
+            "• *Ventana de Inscripciones:* De Lunes a Sábado\n" +
             "  _(Se realizará la organización del grupo o los grupos a conformar las categorías a jugar, y el sorteo correspondiente para que *se inicie el Pasanaku el día Domingo*)._\n\n" +
             "• *Ventana de Liquidación y Pagos:* De 12:00 PM a 20:00 PM.\n" +
             "  _(Se enviarán notificaciones con el código QR del ganador del turno para que realices el pago de la cuota correspondiente, según tu Categoría elegida)._\n\n" +
-            "👥 *ORDEN DE REGISTRO Y EQUIPOS (10 MIEMBROS):*\n\n" +
-            "• Los participantes se registran en orden correlativo en equipos de *10 miembros*.\n\n" +
-            "• Del #1 al #10 conforman el *Equipo #1*. Al completarse, del #11 al #20 conforman el *Equipo #2*, y así sucesivamente.\n\n" +
-            "📌 *MECÁNICA DEL JUEGO:*\n\n" +
+            "📌 *MECÁNICA Y GARANTE MUTUO:*\n\n" +
             "• *Pozo Íntegro (100%):* Recibes el pozo acumulado de tu turno de forma directa de los participantes.\n\n" +
-            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 _(Compadre/Comadre)_ actuando ambos como respaldo del cumplimiento semanal.\n\n" +
-            "💡 *HONORARIOS ADMINISTRATIVOS POR EL USO DE LA PLATAFORMA:*\n\n" +
-            "• Único pago fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
-            "💳 *PAGO E INGRESO AL SISTEMA:*\n\n" +
-            "• Tras enviar tu Nombre completo, recibirás el código QR de los Bs. 3 por el uso de la plataforma.\n\n" + 
-            "• Las cuotas semanales de tu categoría se pagarán directamente al participante beneficiario (de turno) cada domingo hasta las 20:00 PM.\n\n" +
+            "• *Ingreso en Pareja (Garante Mutuo):* Registro de 2 en 2 acting ambos como respaldo del cumplimiento semanal.\n\n" +
+            "💡 *HONORARIOS ADMINISTRATIVOS:*\n\n" +
+            "• Pago único fijo de *Bs. 3* por participante (vía QR al momento del registro).\n\n" +
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
         );
 
@@ -141,16 +192,57 @@ async function procesarMensaje(userId, textoOriginal) {
         let cat = texto === 'a' ? '100 BS' : texto === 'b' ? '200 BS' : '300 BS';
         let cuota = texto === 'a' ? '100 Bs' : texto === 'b' ? '200 Bs' : '300 Bs';
         
-        estadoUsuarios[userId] = `ESPERANDO_NOMBRE_${cat}`;
+        registrosTemporales[userId] = { categoria: cat, cuota: cuota, paso: 'PEDIR_NOMBRE' };
+        estadoUsuarios[userId] = 'REGISTRO_EN_PROCESO';
 
         return (
             `📝 *SOLICITUD DE REGISTRO - CATEGORÍA ${cat}*\n\n` +
             `Has seleccionado la *Categoría de ${cat}* en Pasanaku-Tech.\n` +
-            `• Cuota del juego: *${cuota}* por semana (pagada directamente al participante de turno, el domingo hasta las 20:00 PM).\n` +
-            `• Pago inicial de plataforma: *3 Bs* (único pago vía QR al momento de registrarse).\n\n` +
-            "Para completar tu inscripción, envía en un solo mensaje:\n\n" +
-            "*NOMBRE y APELLIDO*\n\n" +
-            "📲 *Próximo paso:* Al enviar tu nombre, te asignaremos correlativamente al equipo correspondiente de 10 miembros y te enviaremos el QR de 3 Bs."
+            `• Cuota del juego: *${cuota}* por semana.\n` +
+            `• Pago inicial de plataforma: *3 Bs* (único pago vía QR).\n\n` +
+            "Para continuar, responde con tu *NOMBRE y APELLIDO* completo:"
+        );
+
+    } else if (registrosTemporales[userId] && registrosTemporales[userId].paso === 'PEDIR_NOMBRE') {
+        registrosTemporales[userId].nombre = textoOriginal;
+        registrosTemporales[userId].paso = 'PEDIR_GARANTE';
+
+        return (
+            `Gracias, *${textoOriginal}*.\n\n` +
+            "📲 *PASO FINAL - GARANTE MUTUO:*\n" +
+            "Ingresa el *Número de WhatsApp de tu Garante* (ejemplo: 59170000000 o 70000000):\n\n" +
+            "💡 _Le enviaremos una notificación automática a este número para validar la solicitud._"
+        );
+
+    } else if (registrosTemporales[userId] && registrosTemporales[userId].paso === 'PEDIR_GARANTE') {
+        // Limpiar y formatear número del garante
+        let numGarante = textoOriginal.replace(/[^0-9]/g, '');
+        if (!numGarante.startsWith('591') && numGarante.length === 8) {
+            numGarante = '591' + numGarante;
+        }
+
+        if (numGarante.length < 8) {
+            return "⚠️ El número ingresado no es válido. Por favor, ingresa un número de teléfono de WhatsApp correcto (ejemplo: 59170000000):";
+        }
+
+        registrosTemporales[userId].garante = numGarante;
+        registrosTemporales[userId].paso = 'CONFIRMACION_GARANTE';
+
+        // Enviar mensaje automático al Garante (Usuario B)
+        const msgParaGarante = 
+            "🚨 *SOLICITUD DE GARANTE - PASANAKU-TECH*\n\n" +
+            `Hola, *${registrosTemporales[userId].nombre}* (+${userId}) te ha registrado como su Garante Mutuo para ingresar a la *Categoría ${registrosTemporales[userId].categoria}*.\n\n` +
+            "Para confirmar y pre-aprobar el cupo de ambos en el grupo, responde únicamente escribiendo:\n" +
+            "👉 *ACEPTO*\n\n" +
+            "Si no lo conoces o deseas declinar, responde:\n" +
+            "👉 *RECHAZO*";
+        
+        await responderWhatsApp(numGarante, msgParaGarante);
+
+        return (
+            `⏳ *Solicitud enviada a tu Garante (+${numGarante})*.\n\n` +
+            "Le hemos enviado una notificación por WhatsApp. En cuanto responda *ACEPTO*, el sistema pre-aprobará el grupo y nos pondremos en contacto contigo para completar el proceso.\n\n" +
+            "💡 _Escribe *Inicio* si deseas volver al menú._"
         );
 
     } else if (texto === '3') {
@@ -159,27 +251,6 @@ async function procesarMensaje(userId, textoOriginal) {
             "👋 *Atención Personalizada Pasanaku-Tech*\n\n" +
             "Gracias por contactarnos. Mi nombre es: *Pasanaku-Tech, tu Asistente Virtual :)*\n\n" +
             "He notificado a un asesor del equipo administrativo. Por favor, déjanos tu *Nombre y el detalle de tu consulta...* Un ejecutivo se pondrá en contacto contigo a la brevedad posible."
-        );
-
-    } else if (estadoUsuarios[userId] && estadoUsuarios[userId].startsWith('ESPERANDO_NOMBRE_')) {
-        const categoria = estadoUsuarios[userId].replace('ESPERANDO_NOMBRE_', '');
-        estadoUsuarios[userId] = 'REGISTRO_COMPLETADO';
-
-        // Alerta de Registro enviada directamente a tu teléfono personal
-        const alertaAdmin = 
-            "🚨 *NUEVO REGISTRO RECIBIDO*\n\n" +
-            `👤 *Nombre:* ${textoOriginal}\n` +
-            `📱 *Número:* https://wa.me/${userId}\n` +
-            `📊 *Categoría:* ${categoria}\n\n` +
-            "📌 _Acción requerida: Enviar QR de Bs. 3 para validar cupo._";
-        
-        await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
-
-        return (
-            "✅ *¡Registro Recibido!*\n\n" +
-            `Hemos registrado el nombre: *${textoOriginal}*.\n\n` +
-            "El equipo administrativo procesará tu inscripción para asignarte al turno (previo sorteo) al equipo de 10 miembros correspondiente a la Categoría. En breve te enviaremos por este chat el QR de Bs. 3 por uso de plataforma para oficializar tu lugar.\n\n" +
-            "💡 _Escribe *Inicio* en cualquier momento para volver al menú principal._"
         );
 
     } else if (estadoUsuarios[userId] === 'ESPERANDO_SOPORTE') {
