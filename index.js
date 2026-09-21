@@ -109,7 +109,7 @@ async function procesarMensaje(userId, textoOriginal) {
                 `📱 *Teléfono A:* https://wa.me/${solicitanteId}\n` +
                 `📊 *Categoría:* ${registro.categoria}\n\n` +
                 `🤝 *Garante (2):* https://wa.me/${userId}\n\n` +
-                "📌 _Acción requerida: Contactar a ambos números desde el WhatsApp administrativo para solicitar el pago de Bs.3 por cupo._";
+                "📌 _Acción requerida: Contactar a ambos números desde el WhatsApp administrativo para solicitar el pago de Bs.3 por registro._";
             await responderWhatsApp(MI_NUMERO_WHATSAPP, alertaAdmin);
 
             // Actualizar estados
@@ -159,7 +159,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "_Digitalizamos la tradición para potenciar tu liquidez con máxima transparencia._\n\n" +
             "👥 *GRUPOS Y CICLO DEL JUEGO (10 SEMANAS):*\n\n" +
             "• *_Equipos de 10:_* Cada grupo se conforma por exactamente 10 participantes en orden correlativo de registro.\n\n" +
-            "• *_Duración:_* Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su pozo en turnos semanales.\n\n" +
+            "• *_Duración:_* Cada ciclo dura 10 semanas consecutivas, asegurando que los 10 integrantes reciban su cuota en turnos semanales.\n\n" +
             "• *_Inicio:_* Un grupo inicia oficialmente su ciclo el mismo domingo tras confirmarse sus 10 miembros participantes.\n\n" +
             "⏰ *CRONOGRAMA OPERATIVO DOMINICAL:*\n\n" +
             "• *Ventana de Inscripciones:* De Lunes a Sábado\n" +
@@ -183,7 +183,7 @@ async function procesarMensaje(userId, textoOriginal) {
             "🔹 *¿Qué función cumple la cuota de Bs. 3?*\n" +
             "Es un pago único por ciclo correspondiente a los honorarios por el uso de la infraestructura tecnológica, la automatización de notificaciones y la administración del bot(IA) en WhatsApp.\n\n" +
             "🔹 *¿Qué pasa si mi Garante no responde el mensaje?*\n" +
-            "El registro permanece en estado pendiente. La pre-aprobación y la asignación del cupo solo se activan cuando el Garante responde la palabra *ACEPTO* en el chat del WhatsApp.\n\n" +
+            "El registro permanece en estado pendiente. La pre-aprobación y la asignación del registro, solo se activan cuando el Garante responde la palabra *ACEPTO* en el chat del WhatsApp.\n\n" +
             "🔹 *¿Puedo cambiar de categoría una vez iniciado el ciclo?*\n" +
             "*No*. Una vez iniciado el ciclo de 10 semanas, la categoría elegida (Bs.100, Bs.200 o Bs.300) y la respectiva cuota son fijas, manteniéndose hasta completar la liquidación de los 10 turnos.
             "🎯 _Escribe *2* para ver las categorías disponibles e inscribirte o *Inicio* para regresar._"
@@ -225,7 +225,7 @@ async function procesarMensaje(userId, textoOriginal) {
         return (
             `Gracias, *${textoOriginal}*.\n\n` +
             "📲 *PASO FINAL - GARANTE MUTUO:*\n" +
-            "Ingresa el *Número de WhatsApp de tu Garante* (ejemplo: 59170000000 o 70000000):\n\n" +
+            "Ingresa el *Número de WhatsApp de tu Garante (Compadre/Comadre)* (ejemplo: 59170000000 o 70000000):\n\n" +
             "💡 _Le enviaremos una notificación automática a este número para validar la solicitud._"
         );
 
@@ -256,7 +256,7 @@ async function procesarMensaje(userId, textoOriginal) {
 
         return (
             `⏳ *Solicitud enviada a tu Garante (+${numGarante})*.\n\n` +
-            "Le hemos enviado una notificación por WhatsApp. En cuanto responda *ACEPTO*, el sistema pre-aprobará el grupo y nos pondremos en contacto contigo para completar el proceso.\n\n" +
+            "Le hemos enviado una notificación por WhatsApp. En cuanto responda *ACEPTO*, el sistema pre-aprobará el pre-registro y nos pondremos en contacto contigo para completar el proceso.\n\n" +
             "💡 _Escribe *Inicio* si deseas volver al menú._"
         );
 
